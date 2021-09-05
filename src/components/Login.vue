@@ -21,6 +21,7 @@
 </template>
 
 <script>
+	import Qs from 'qs'
 	export default {
 		name: 'Login',
 		data() {
@@ -32,7 +33,18 @@
 		methods: {
 			login() {
 				console.log("email", this.email, "password", this.password)
-				localStorage.setItem("t","diosandi232y3713y82913")
+				// localStorage.setItem("t", "diosandi232y3713y82913")
+				this.$axios({
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					url: '/register',
+					data: JSON.stringify({
+						"email" : "hhao2019@163.com",
+						"password": "12123"
+					})
+				})
 			},
 			register() {
 				this.$emit('show-register', 2)

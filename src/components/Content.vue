@@ -3,7 +3,10 @@
 		<div class="right">
 			<div class="row1">
 			<div class="info-ops"></div>
-			<div class="map-log"></div>
+			<div class="map-log">
+				<div class="map"></div>
+				<div class="log"></div>
+			</div>
 			</div>
 			<div class="row2"></div>
 		</div>
@@ -62,6 +65,14 @@
 		width: 30%;
 		height: 100%;
 		background-color: #586740;
+		display: flex;
+		justify-content: center;
+	}
+	.row1 > .map-log > .map{
+		
+	}
+	.row1 > .map-log > .log{
+		
 	}
 	
 	.left {
