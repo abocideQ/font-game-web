@@ -4,7 +4,7 @@
 			<p>创建角色</p>
 		</div>
 		<div class="roleCreater">
-			<p>角色名称：<input id="nickname" type="text" v-model="nickname" placeholder="请输入2-4个文字" />
+			<p>角色名称：<input id="nickname" type="text" v-model="nickname" placeholder="请输入2-4个文字" maxlength="4" />
 				<span class="pointer" @click="genName">生成</span>
 			</p>
 			<p>性别:
@@ -25,13 +25,25 @@
 		</div>
 		<div class="options">
 			<span class="pointer" @click="signIn()">创建</span>
-			<span class="pointer" @click="signOut()">选择角色</span>
+			<span class="pointer" @click="toRole()">选择角色</span>
 		</div>
 	</div>
 </template>
-
+<!-- 
+TODO：
+	1、属性随机设置一些值，目前是固定 20
+	2、nickname 需要默认随机名称
+ -->
 <script>
 	import randomName from '../assets/js/random-name.js'
+
+	function Chinasimple(str) {
+		var strs = str.replace(/(^\s+)|(\s+$)/g, ""); //去除前后的空格
+		if (!strs.match(/^[\u4e00-\u9fa5]{2,4}$/)) { //我习惯用match
+			return false;
+		}
+		return true;
+	}
 	export default {
 		name: 'RoleCreate',
 		data() {
@@ -46,17 +58,82 @@
 			}
 		},
 		watch: {
+			WL(newValue, oldValue) {
+				console.log(newValue, oldValue)
+				if (newValue < 15 || newValue > 30) {
+					this.showMsg = "武力超过合理范围"
+				} else {
+					this.showMsg = ''
+				}
+			},
+			GG(newValue, oldValue) {
+				console.log(newValue, oldValue)
+				if (newValue < 15 || newValue > 30) {
+					this.showMsg = "根骨过合理范围"
+				} else {
+					this.showMsg = ''
+				}
+			},
+			WX(newValue, oldValue) {
+				console.log(newValue, oldValue)
+				if (newValue < 15 || newValue > 30) {
+					this.showMsg = "悟性超过合理范围"
+				} else {
+					this.showMsg = ''
+				}
+			},
+			SF(newValue, oldValue) {
+				console.log(newValue, oldValue)
+				if (newValue < 15 || newValue > 30) {
+					this.showMsg = "身法超过合理范围"
+				} else {
+					this.showMsg = ''
+				}
+			},
+			nickname(newValue, oldValue) {
+				console.log(newValue, oldValue, Chinasimple(newValue))
+				if (!Chinasimple(newValue)) {
+					this.showMsg = "昵称只能2-4个汉字～"
+				} else {
+					this.showMsg = ''
+				}
+			}
 		},
 		methods: {
-			signIn() {},
-			toCreate() {},
+			signIn() {
+				if(this.nickname == ""){
+					this.showMsg="昵称只能2-4个汉字～"
+				}
+				if (this.showMsg != "") {
+					alert(this.showMsg)
+				} else {
+					this.bus.$emit('loading', true);
+					this.$axios({
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						method: 'POST',
+						url: '/create/role',
+						data: {
+							"sex": this.email,
+							"WL": this.WL,
+							"GG": this.GG,
+							"WX": this.WX,
+							"SF": this.SF,
+							"nickname": this.nickname
+						}
+					}).then((res)=>{
+						this.bus.$emit('loading', false);
+					})
+				}
+			},
+			toRole() {
+				this.$emit("show-view",3)
+			},
 			toRegister() {},
 			genName() {
 				this.nickname = randomName.getName()
 			},
-			changeSex(sex) {
-
-			}
 		}
 	}
 </script>
@@ -71,6 +148,6 @@
 	}
 
 	.roleCreater input {
-		padding: 2px 2px;
+		padding: 2px 4px;
 	}
 </style>

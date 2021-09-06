@@ -22,6 +22,7 @@
 </template>
 
 <script>
+	import userApi from '../api/UserApi.js'
 	export default {
 		name: 'Login',
 		data() {

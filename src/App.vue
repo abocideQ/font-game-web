@@ -1,9 +1,10 @@
 <template>
 	<div id="app">
+		<loading></loading>   
 		<Login v-on:show-view="type = $event" v-if="type == 1" />
 		<Register v-on:show-view="type = $event" v-if="type == 2 " />
 		<Role v-on:show-view="type =$event" v-if="type == 3" />
-		<RoleCreate v-on:show-view="type = $event == 4" v-if="type == 4"/>
+		<RoleCreate v-on:show-view="type = $event" v-if="type == 4" />
 		<Content v-on:show-view="type = $event" v-if="type ==5" />
 	</div>
 </template>
@@ -14,6 +15,7 @@
 	import Content from './components/Content.vue'
 	import Role from './components/Role.vue'
 	import RoleCreate from './components/RoleCreate.vue'
+	import Loading from './components/Loading.vue'
 	export default {
 		name: 'app',
 		components: {
@@ -22,6 +24,7 @@
 			Role,
 			RoleCreate,
 			Content,
+			Loading
 		},
 		data() {
 			return {
@@ -29,8 +32,7 @@
 			}
 		},
 		watch: {
-			type(newValue, oldValue) {
-			}
+			type(newValue, oldValue) {}
 		},
 		created() {
 			var t = localStorage.getItem("t")
@@ -47,10 +49,11 @@
 </script>
 
 <style>
-	.error-text{
-color: red;
+	.error-text {
+		color: red;
 	}
-	.home-title{
+
+	.home-title {
 		width: 60%;
 		display: flex;
 		justify-content: center;
@@ -59,7 +62,8 @@ color: red;
 		flex-flow: column;
 		background-color: #eacd76;
 	}
-	.welcome{
+
+	.welcome {
 		color: white;
 		font-size: 16px;
 		background-color: chocolate;
@@ -67,15 +71,17 @@ color: red;
 		text-align: center;
 		border-radius: 12px 12px 0 0;
 	}
-	
+
 	.pointer {
 		padding: 2px 10px;
 		border-radius: 12px;
 		cursor: pointer;
 	}
-	.pointer:hover{
+
+	.pointer:hover {
 		background-color: burlywood;
 	}
+
 	.options {
 		display: flex;
 		justify-content: space-between;
@@ -83,10 +89,11 @@ color: red;
 		flex-flow: column;
 		padding: 10px 0;
 	}
-	.options > span{
+
+	.options>span {
 		margin: 2px 0;
-		border-bottom: 1px solid #232323;
 	}
+
 	body {
 		background-color: #F0F8FF;
 	}
