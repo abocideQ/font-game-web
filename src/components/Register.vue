@@ -1,5 +1,5 @@
 <template>
-	<div class="login">
+	<div class="home-title">
 		<div class="welcome">
 			<p> 欢迎注册</p>
 		</div>
@@ -12,9 +12,8 @@
 			</div>
 		</div>
 		<div class="options">
-			<span class="pointer" @click="login()">登录</span>
-			<span class="pointer">忘记密码</span>
-			<span class="pointer">注册账号</span>
+			<span class="pointer" @click="register()">注册</span>
+			<span class="pointer" @click="toLogin()">登录账号</span>
 		</div>
 	</div>
 	
@@ -31,8 +30,22 @@
 
 		},
 		methods: {
-			login(){
+			register(){
 				console.log("email",this.email,"password",this.password)
+				this.$axios({
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					url: '/register',
+					data: {
+						"email" : this.email,
+						"password": this.password
+					}
+				})
+			},
+			toLogin(){
+				this.$emit('show-view', 1)
 			}
 		}
 	}
@@ -40,23 +53,6 @@
 
 
 <style scoped="scoped">
-	.login {
-		width: 50%;
-		background-color: aliceblue;
-		display: flex;
-		justify-content: center;
-		border-radius: 12px;
-		align-items: center;
-		flex-flow: column;
-	}
-
-	.welcome {
-		background-color: chocolate;
-		width: 100%;
-		text-align: center;
-		border-radius: 12px 12px 0 0;
-	}
-
 	.login-from {
 		padding: 10px 0;
 	}
@@ -76,9 +72,5 @@
 		justify-content: space-between;
 		align-items: center;
 		flex-flow: column;
-	}
-
-	.options>span {
-		padding: 5px 0;
 	}
 </style>

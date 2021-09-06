@@ -1,5 +1,5 @@
 <template>
-	<div class="login">
+	<div class="home-title">
 		<div class="welcome">
 			<p> 欢迎登陆</p>
 		</div>
@@ -12,42 +12,54 @@
 			</div>
 		</div>
 		<div class="options">
+			<span v-show="showMsg" style="color: red;">{{errorMsg}}</span>
 			<span class="pointer" @click="login()">登录</span>
 			<span class="pointer">忘记密码</span>
-			<span class="pointer" @click="register()">注册账号</span>
+			<span class="pointer" @click="toRegister()">注册账号</span>
 		</div>
 	</div>
 
 </template>
 
 <script>
-	import Qs from 'qs'
 	export default {
 		name: 'Login',
 		data() {
 			return {
-				email: "213",
-				password: "123",
+				email: "",
+				password: "",
+				showMsg: false,
+				errorMsg: "",
 			}
 		},
 		methods: {
 			login() {
 				console.log("email", this.email, "password", this.password)
-				// localStorage.setItem("t", "diosandi232y3713y82913")
+				// localStorage.setItem("t", "diosandi232y3713y82913")	
 				this.$axios({
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					method: 'POST',
-					url: '/register',
-					data: JSON.stringify({
-						"email" : "hhao2019@163.com",
-						"password": "12123"
-					})
+					url: '/login',
+					data: {
+						"email": this.email,
+						"password": this.password
+					}
+				}).then((res) => {
+					console.log(res.data)
+					if (res.data.code === "200") {
+						localStorage.setItem("t", res.data.t)
+						location.reload();
+					} else {
+						this.errorMsg = res.data.msg
+						this.showMsg = true
+					}
+
 				})
 			},
-			register() {
-				this.$emit('show-register', 2)
+			toRegister() {
+				this.$emit('show-view', 2)
 			}
 		}
 	}
@@ -55,23 +67,6 @@
 
 
 <style scoped="scoped">
-	.login {
-		width: 50%;
-		background-color: aliceblue;
-		display: flex;
-		justify-content: center;
-		border-radius: 12px;
-		align-items: center;
-		flex-flow: column;
-	}
-
-	.welcome {
-		background-color: chocolate;
-		width: 100%;
-		text-align: center;
-		border-radius: 12px 12px 0 0;
-	}
-
 	.login-from {
 		padding: 10px 0;
 	}
@@ -83,17 +78,6 @@
 
 	.email>input,
 	.password>input {
-		padding: 5px 0;
-	}
-
-	.options {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-flow: column;
-	}
-
-	.options>span {
 		padding: 5px 0;
 	}
 </style>
