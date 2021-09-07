@@ -22,7 +22,9 @@
 </template>
 
 <script>
-	import userApi from '../api/UserApi.js'
+	import {
+		loginApi
+	} from '../api/UserApi.js'
 	export default {
 		name: 'Login',
 		data() {
@@ -34,30 +36,22 @@
 			}
 		},
 		methods: {
-			login() {
+			async login() {
 				console.log("email", this.email, "password", this.password)
-				// localStorage.setItem("t", "diosandi232y3713y82913")	
-				this.$axios({
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					method: 'POST',
-					url: '/login',
-					data: {
-						"email": this.email,
-						"password": this.password
-					}
-				}).then((res) => {
-					console.log(res.data)
-					if (res.data.code === "200") {
-						localStorage.setItem("t", res.data.t)
-						location.reload();
-					} else {
-						this.errorMsg = res.data.msg
-						this.showMsg = true
-					}
-
+				const login = await loginApi({
+					"email": this.email,
+					"password": this.password
 				})
+				console.log(login)
+				// login.then((res) => {
+				// 	if (res.data.code === "200") {
+				// 		localStorage.setItem("t", res.data.t)
+				// 		location.reload();
+				// 	} else {
+				// 		this.errorMsg = res.data.msg
+				// 		this.showMsg = true
+				// 	}
+				// })
 			},
 			toRegister() {
 				this.$emit('show-view', 2)

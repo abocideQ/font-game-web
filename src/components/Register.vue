@@ -37,7 +37,7 @@
 						'Content-Type': 'application/json'
 					},
 					method: 'POST',
-					url: '/register',
+					url: '/user/register',
 					data: {
 						"email" : this.email,
 						"password": this.password

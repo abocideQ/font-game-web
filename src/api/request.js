@@ -3,11 +3,12 @@ import QS from 'qs'
 
 
 // 请求超时时间
-axios.defaults.timeout = 1000 * 10;
+axios.defaults.timeout = 3000;
 // post请求头
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 // 设置公共url
-//axios.defaults.baseURL = 'http://127.0.0.1:7001'
+axios.defaults.baseURL='http://127.0.0.1:12345'
+axios.defaults.timeout = 3000;
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {

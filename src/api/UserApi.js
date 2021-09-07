@@ -1,9 +1,9 @@
-import axios from 'axios'
-import QS from 'qs'
+import axios from './request.js'
 
-const userApi = {
-    login() {
-        return axios.get(`${base.egg}/api/role` );
-    }
+export function loginApi(data) {
+	return axios({
+		method: "POST",
+		url: '/user/login',
+		data: data
+	});
 }
-export default userApi;
