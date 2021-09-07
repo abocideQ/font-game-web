@@ -53,7 +53,9 @@
 			})
 		},
 		methods: {
-			signIn() {},
+			signIn() {
+				this.$emit('show-view', 5)
+			},
 			toCreate() {
 				this.$emit('show-view', 4)
 			},

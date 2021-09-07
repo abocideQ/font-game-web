@@ -1,16 +1,11 @@
 <template>
-	<div class="content">
-		<div class="right">
-			<div class="row1">
-			<div class="info-ops"></div>
-			<div class="map-log">
-				<div class="map"></div>
-				<div class="log"></div>
-			</div>
-			</div>
-			<div class="row2"></div>
+	<div class="home-title">
+		<div class="welcome">
+			<p>欢迎登录 {{nowTime}}</p>
 		</div>
-		<div class="left"></div>
+		<div class="ops-box">
+			<p>123</p>
+		</div>
 	</div>
 </template>
 
@@ -19,66 +14,84 @@
 		name: 'Content',
 		data() {
 			return {
+				path: "ws://127.0.0.1:24680/ws",
+				socket: "",
+				nowTime: ''
 
 			}
 
 		},
-		methods: {}
+		mounted() {
+			this.init()
+			this.nowTimes()
+		},
+		methods: {
+			init: function() {
+				if (typeof(WebSocket) === "undefined") {
+					alert("您的浏览器不支持socket")
+				} else {
+					// 实例化socket
+					this.socket = new WebSocket(this.path)
+					// 监听socket连接
+					this.socket.onopen = this.open
+					// 监听socket错误信息
+					this.socket.onerror = this.error
+					// 监听socket消息
+					this.socket.onmessage = this.getMessage
+				}
+			},
+			open: function() {
+				console.log("socket连接成功")
+			},
+			error: function() {
+				console.log("连接错误")
+			},
+			getMessage: function(msg) {
+				console.log(msg.data)
+			},
+			send: function() {
+				this.socket.send(params)
+			},
+			close: function() {
+				console.log("socket已经关闭")
+			},
+
+
+			//显示当前时间（年月日时分秒）
+			timeFormate(timeStamp) {
+				let year = new Date(timeStamp).getFullYear();
+				let month = new Date(timeStamp).getMonth() + 1 < 10 ? "0" + (new Date(timeStamp).getMonth() + 1) :
+					new Date(timeStamp).getMonth() + 1;
+				let date = new Date(timeStamp).getDate() < 10 ? "0" + new Date(timeStamp).getDate() : new Date(timeStamp)
+					.getDate();
+				let hh = new Date(timeStamp).getHours() < 10 ? "0" + new Date(timeStamp).getHours() : new Date(timeStamp)
+					.getHours();
+				let mm = new Date(timeStamp).getMinutes() < 10 ? "0" + new Date(timeStamp).getMinutes() : new Date(
+					timeStamp).getMinutes();
+				let ss = new Date(timeStamp).getSeconds() < 10 ? "0" + new Date(timeStamp).getSeconds() : new Date(
+					timeStamp).getSeconds();
+				this.nowTime = year + "年" + month + "月" + date + "日" + " " + hh + ":" + mm + ':' + ss;
+			},
+			nowTimes() {
+				this.timeFormate(new Date());
+				setInterval(this.nowTimes, 1000);
+				this.clear()
+			},
+			clear() {
+				clearInterval(this.nowTimes)
+				this.nowTimes = null;
+			}
+		},
+		destroyed() {
+			// 销毁监听
+			this.socket.onclose = this.close
+		}
 	}
 </script>
 
 <style scoped="scoped">
-	.content {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 70%;
-		margin-top: 20px;
-	}
+	.ops-box {
 
-	.right {
-		width: 80%;
-		background-color: white;
-		height: 800px;
-		border-radius: 12px 0 0 12px;
-		display: flex;
-		flex-flow: column;
-	}
-	.row1{
-		width: 100%;
-		height: 75%;
-		background-color: #F0F8FF;
-		display: flex;
-		flex-flow: row;
-	}
-	.row2{
-		height: 25%;
-		width: 100%;
-		background-color: beige;
-	}
-	.row1 > .info-ops {
-		width: 70%;
-		height: 100%;
-		background-color: #42B983;
-	}
-	.row1 > .map-log {
-		width: 30%;
-		height: 100%;
-		background-color: #586740;
-		display: flex;
-		justify-content: center;
-	}
-	.row1 > .map-log > .map{
-		
-	}
-	.row1 > .map-log > .log{
-		
-	}
-	
-	.left {
-		width: 20%;
-		background-color: #D2691E;
-		height: 800px;
-		border-radius: 0 12px 12px 0;
+		height: calc(100vh - 23px)
 	}
 </style>
