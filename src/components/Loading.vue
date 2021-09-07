@@ -3,7 +3,7 @@
   <div class="markbox" v-show="loading" style="background-color: rgba(0, 0, 0, 0.5);">
     <!-- <div class="sun-loading"></div> -->
 	<div class=" sun-loading">
-		 加载中....
+		 {{msg}}
 	</div>
 
   </div>
@@ -14,7 +14,8 @@ export default {
     name: 'Loading',
     data() {
         return {
-            loading: false
+            loading: false,
+			msg: "加载中..."
         }
     },
     created() {

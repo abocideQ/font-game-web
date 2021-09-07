@@ -36,6 +36,9 @@ TODO：
  -->
 <script>
 	import randomName from '../assets/js/random-name.js'
+	import {
+		createRoleApi
+	} from '../api/UserApi.js'
 
 	function Chinasimple(str) {
 		var strs = str.replace(/(^\s+)|(\s+$)/g, ""); //去除前后的空格
@@ -100,35 +103,33 @@ TODO：
 			}
 		},
 		methods: {
-			signIn() {
-				if(this.nickname == ""){
-					this.showMsg="昵称只能2-4个汉字～"
+			async signIn() {
+				if (this.nickname == "") {
+					this.showMsg = "昵称只能2-4个汉字～"
 				}
 				if (this.showMsg != "") {
 					alert(this.showMsg)
 				} else {
 					this.bus.$emit('loading', true);
-					this.$axios({
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						method: 'POST',
-						url: '/create/role',
-						data: {
-							"sex": this.email,
-							"WL": this.WL,
-							"GG": this.GG,
-							"WX": this.WX,
-							"SF": this.SF,
-							"nickname": this.nickname
-						}
-					}).then((res)=>{
+					await createRoleApi({
+						"sex": this.sex,
+						"wl": this.WL,
+						"gg": this.GG,
+						"wx": this.WX,
+						"sf": this.SF,
+						"nickname": this.nickname
+					}).then((res) => {
 						this.bus.$emit('loading', false);
+						if (res.data.code === 200) {
+							this.$emit("show-view", 3)
+						} else {
+							this.showMsg = res.data.msg
+						}
 					})
 				}
 			},
 			toRole() {
-				this.$emit("show-view",3)
+				this.$emit("show-view", 3)
 			},
 			toRegister() {},
 			genName() {

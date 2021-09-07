@@ -5,7 +5,11 @@
 		</div>
 		<p style="padding: 5px 0;" v-if="roleList == undefined ||roleList == null || roleList.length <= 0">暂无角色...</p>
 		<div class="roleList" v-else>
-			<p class="pointer" v-for="item in roleList">{{item.label}} {{item.name}}</p>
+			<p :class="{'pointer':true,'choose':isActive}" class="pointer " v-for="item in roleList" @click="chooseRole()" >
+				{{ levelMap.boolean[item.level]}}
+				{{ sexMap.boolean[item.sex]}}
+				{{item.nickname}}
+			</p>
 		</div>
 		<div class="options">
 			<!-- <span v-show="showMsg" style="color: red;">{{errorMsg}}</span> -->
@@ -17,43 +21,48 @@
 </template>
 
 <script>
+	import {
+		getRoleListApi
+	} from '../api/UserApi.js'
 	export default {
 		name: 'Role',
 		data() {
 			return {
-				roleList: [
-					// {
-					// 	id: "1251",
-					// 	label: "普通百姓",
-					// 	name: "虚竹"
-					// },
-					// {
-					// 	"id": "125541",
-					// 	label: "普通百姓",
-					// 	name: "段誉"
-					// },
-					// {
-					// 	id: "121251",
-					// 	label: "普通百姓",
-					// 	name: "乔峰"
-					// },
-					// {
-					// 	id: "154",
-					// 	label: "普通百姓",
-					// 	name: "慕容复"
-					// }
-				]
+				isActive: false,
+				roleList: [],
+				sexMap: {
+					boolean: {
+						1: '男性',
+						0: '女性'
+					}
+				},
+				levelMap: {
+					boolean: {
+						0: '普通百姓',
+						1: '初入江湖',
+						3: ''
+					}
+				}
 			}
 		},
+		mounted() {
+			getRoleListApi().then((res) => {
+				if (res.data.code === 200) {
+					this.roleList = res.data.data
+				}
+			})
+		},
 		methods: {
-			signIn(){
-			},
-			toCreate(){
+			signIn() {},
+			toCreate() {
 				this.$emit('show-view', 4)
 			},
-			signOut(){
+			signOut() {
 				this.$emit('show-view', 1)
 				localStorage.removeItem("t")
+			},
+			chooseRole(){
+				this.isActive = true
 			}
 		}
 	}
@@ -67,6 +76,9 @@
 		justify-content: center;
 		align-items: center;
 		flex-flow: column;
-		border-bottom: #eeeeee solid 1px;
+	}
+
+	.choose {
+		background-color: burlywood;
 	}
 </style>

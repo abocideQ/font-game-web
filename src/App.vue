@@ -88,6 +88,7 @@
 		align-items: center;
 		flex-flow: column;
 		padding: 10px 0;
+		border-top: #eeeeee solid 1px;
 	}
 
 	.options>span {

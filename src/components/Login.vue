@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="options">
-			<span v-show="showMsg" style="color: red;">{{errorMsg}}</span>
+			<span v-show="showMsg!=''" style="color: red;">{{showMsg}}</span>
 			<span class="pointer" @click="login()">登录</span>
 			<span class="pointer">忘记密码</span>
 			<span class="pointer" @click="toRegister()">注册账号</span>
@@ -31,27 +31,22 @@
 			return {
 				email: "",
 				password: "",
-				showMsg: false,
-				errorMsg: "",
+				showMsg: ""
 			}
 		},
 		methods: {
 			async login() {
-				console.log("email", this.email, "password", this.password)
 				const login = await loginApi({
 					"email": this.email,
 					"password": this.password
+				}).then((res) => {
+					if (res.data.code === 200) {
+						localStorage.setItem("t", res.data.data.t)
+						location.reload();
+					} else {
+						this.showMsg = res.data.msg
+					}
 				})
-				console.log(login)
-				// login.then((res) => {
-				// 	if (res.data.code === "200") {
-				// 		localStorage.setItem("t", res.data.t)
-				// 		location.reload();
-				// 	} else {
-				// 		this.errorMsg = res.data.msg
-				// 		this.showMsg = true
-				// 	}
-				// })
 			},
 			toRegister() {
 				this.$emit('show-view', 2)
