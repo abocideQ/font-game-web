@@ -110,7 +110,7 @@ TODO：
 				if (this.showMsg != "") {
 					alert(this.showMsg)
 				} else {
-					this.bus.$emit('loading', true);
+					this.bus.$emit('loading', "创建角色中...");
 					await createRoleApi({
 						"sex": this.sex,
 						"wl": this.WL,
@@ -119,8 +119,8 @@ TODO：
 						"sf": this.SF,
 						"nickname": this.nickname
 					}).then((res) => {
-						this.bus.$emit('loading', false);
 						if (res.data.code === 200) {
+							this.bus.$emit('loading', "创建成功...");
 							this.$emit("show-view", 3)
 						} else {
 							this.showMsg = res.data.msg
@@ -135,6 +135,25 @@ TODO：
 			genName() {
 				this.nickname = randomName.getName()
 			},
+			ramdomData(list,min,max,currentMax){
+				if(list.length == 4)
+					return list
+				if(list.length ==3){
+					list.push(80-(list[0]+list[1]+list[2]))
+					return list
+				}
+				 
+				var num = RandomNumBoth(min,max)
+				list.push(num)
+				currentMax = currentMax-num
+				return ramdomData(list,min,currentMax-max,currentMax)
+			},
+			RandomNumBoth(Min,Max){            
+			    var Range = Max - Min;            
+			    var Rand = Math.random();            
+			    var num = Min + Math.round(Rand * Range); //四舍五入            
+			    return num;
+			}
 		}
 	}
 </script>

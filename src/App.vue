@@ -77,7 +77,13 @@
 		border-radius: 12px;
 		cursor: pointer;
 	}
-
+	.pointer-nickname{
+		cursor: pointer;
+		border-radius: 5px;
+	}
+	.pointer-nickname:hover{
+		background-color: #DEB887;
+	}
 	.pointer:hover {
 		background-color: burlywood;
 	}
@@ -106,5 +112,6 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		font-size: 12px;
 	}
 </style>

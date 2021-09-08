@@ -3,9 +3,10 @@
 		<div class="welcome">
 			<p>选择角色</p>
 		</div>
-		<p style="padding: 5px 0;" v-if="roleList == undefined ||roleList == null || roleList.length <= 0">暂无角色...</p>
-		<div class="roleList" v-else>
-			<p :class="{'pointer':true,'choose':isActive}" class="pointer " v-for="item in roleList" @click="chooseRole()" >
+		<p style="padding: 5px 0;" v-if="roleList == undefined ||roleList == null || roleList.length <= 0">{{roleMsg}}</p>
+		<div class="roleList" v-else id="roleList">
+			<p :id="item.id" :class="{'pointer':true}" class="pointer " v-for="item,index in roleList"
+				@click="chooseRole">
 				{{ levelMap.boolean[item.level]}}
 				{{ sexMap.boolean[item.sex]}}
 				{{item.nickname}}
@@ -30,6 +31,7 @@
 			return {
 				isActive: false,
 				roleList: [],
+				roleMsg:"加载中...",
 				sexMap: {
 					boolean: {
 						1: '男性',
@@ -49,6 +51,10 @@
 			getRoleListApi().then((res) => {
 				if (res.data.code === 200) {
 					this.roleList = res.data.data
+					if(res.data.data.length ==0){
+						this.roleMsg = "暂无角色..."
+					}
+					
 				}
 			})
 		},
@@ -63,8 +69,18 @@
 				this.$emit('show-view', 1)
 				localStorage.removeItem("t")
 			},
-			chooseRole(){
-				this.isActive = true
+			chooseRole(event) {
+				var target = event.srcElement || event.target;
+				target.setAttribute("class", "pointer choose")
+				var s = document.getElementById("roleList");
+				var chils = s.childNodes;
+				chils.forEach(ele => {
+					if (ele.id !== target.id) {
+						ele.setAttribute("class", "pointer")
+						localStorage.removeItem("r")
+					}
+				})
+				localStorage.setItem("r", target.id)
 			}
 		}
 	}
