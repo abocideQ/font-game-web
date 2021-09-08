@@ -136,9 +136,9 @@ TODO：
 				this.nickname = randomName.getName()
 			},
 			ramdomData(list,min,max,currentMax){
-				if(list.length == 4)
+				if(list.length === 4)
 					return list
-				if(list.length ==3){
+				if(list.length ===3){
 					list.push(80-(list[0]+list[1]+list[2]))
 					return list
 				}
