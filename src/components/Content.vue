@@ -101,6 +101,8 @@ export default {
             })
         } else if (obj.command === "login") {
           this.role = obj.roleInfo
+        } else if (obj.command === "other login"){
+          console.log(obj.msg)
         }
       } else {
         this.$bus.emit("loading", obj.msg)

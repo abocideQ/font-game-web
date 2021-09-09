@@ -3,9 +3,9 @@
 		<div class="welcome">
 			<p>选择角色</p>
 		</div>
-		<p style="padding: 5px 0;" v-if="roleList == undefined ||roleList == null || roleList.length <= 0">{{roleMsg}}</p>
+		<p style="padding: 5px 0;" v-if="roleList === undefined ||roleList == null || roleList.length <= 0">{{roleMsg}}</p>
 		<div class="roleList" v-else id="roleList">
-			<p :id="item.id" :class="{'pointer':true}" class="pointer " v-for="item,index in roleList"
+			<p :id="item.id" :class="{'pointer':true}" class="pointer " v-for="item in roleList"
 				@click="chooseRole">
 				{{ levelMap.boolean[item.level]}}
 				{{ sexMap.boolean[item.sex]}}
@@ -51,7 +51,7 @@
 			getRoleListApi().then((res) => {
 				if (res.data.code === 200) {
 					this.roleList = res.data.data
-					if(res.data.data.length ==0){
+					if(res.data.data.length ===0){
 						this.roleMsg = "暂无角色..."
 					}
 					
@@ -60,7 +60,11 @@
 		},
 		methods: {
 			signIn() {
-				this.$emit('show-view', 5)
+        if (localStorage.getItem("r")){
+          this.$emit('show-view', 5)
+        }else{
+          this.bus.$emit("loading","请选择角色")
+        }
 			},
 			toCreate() {
 				this.$emit('show-view', 4)
