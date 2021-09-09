@@ -94,14 +94,14 @@ export default {
       console.log("收到消息：", msg.data, typeof msg.data)
       var obj = JSON.parse(msg.data);
       if (obj.code === "200") {
-        if (obj.command === "add msg") {
+        if (obj.command === "add msg") { // 聊天室消息添加
             this.msgList.push({
               nickname: obj.nickname,
               msg: obj.msg
             })
-        } else if (obj.command === "login") {
+        } else if (obj.command === "login") { // 登录返回
           this.role = obj.roleInfo
-        } else if (obj.command === "other login"){
+        } else if (obj.command === "other login"){ // 异地登录提示
           console.log(obj.msg)
         }
       } else {
