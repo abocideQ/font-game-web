@@ -4,7 +4,17 @@
       <p>欢迎登录 {{ nowTime }}</p>
     </div>
     <div class="ops-box">
-      <div class="left">12</div>
+      <div class="left">
+
+        <div class="content-left">
+
+        </div>
+        <div class="content-right">
+          <div class="map">412</div>
+          <div class="nearby">412</div>
+        </div>
+
+      </div>
       <div class="right">
         <div class="right-up">
           <p class="world" v-for="item in msgList">
@@ -165,7 +175,30 @@ export default {
   width: 80%;
   /* background-color: #42B983; */
   border-radius: 0 0 0 12px;
+  display: flex;
 }
+.content-left {
+  width: 70%;
+  background: #42B983;
+  display: flex;
+  flex-flow: row;
+}
+.content-right .map{
+  width: 100%;
+  height: 30%;
+  background: blueviolet;
+}
+.content-right .nearby{
+  height: 70%;
+  width: 100%;
+  background: aquamarine;
+}
+.content-right{
+  width: 30%;
+  background: #eeeeee;
+}
+
+
 
 .ops-box .right {
   width: 20%;
