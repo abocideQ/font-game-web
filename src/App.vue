@@ -1,11 +1,11 @@
 <template>
 	<div id="app">
 		<loading></loading>   
-		<Login v-on:show-view="type = $event" v-if="type == 1" />
-		<Register v-on:show-view="type = $event" v-if="type == 2 " />
-		<Role v-on:show-view="type =$event" v-if="type == 3" />
-		<RoleCreate v-on:show-view="type = $event" v-if="type == 4" />
-		<Content v-on:show-view="type = $event" v-if="type ==5" />
+		<Login v-on:show-view="type = $event" v-if="type === 1" />
+		<Register v-on:show-view="type = $event" v-if="type === 2 " />
+		<Role v-on:show-view="type =$event" v-if="type === 3" />
+		<RoleCreate v-on:show-view="type = $event" v-if="type === 4" />
+		<Content v-on:show-view="type = $event" v-if="type ===5" />
 	</div>
 </template>
 
@@ -65,7 +65,7 @@
 
 	.welcome {
 		color: white;
-		font-size: 16px;
+		font-size: 14px !important;
 		background-color: chocolate;
 		width: 100%;
 		text-align: center;
@@ -114,4 +114,11 @@
 		align-items: center;
 		font-size: 12px;
 	}
+
+  red{
+    color: red;
+  }
+  cadetblue{
+    color: cadetblue;
+  }
 </style>

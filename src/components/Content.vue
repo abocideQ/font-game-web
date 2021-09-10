@@ -1,24 +1,27 @@
 <template>
   <div class="home-title">
-    <div class="welcome">
-      <p>欢迎登录 {{ nowTime }}</p>
+    <div class="welcome content-wel">
+      <p>{{ role.nickname }} · {{ levelMap.boolean[role.level]}} · {{nowTime}}</p>
     </div>
     <div class="ops-box">
       <div class="left">
 
         <div class="content-left">
-
+          <div class="map-info">地图描述</div>
+          <div class="content-info" id="content-info">
+            <p v-for="item in contentList" v-html="item"></p>
+          </div>
         </div>
         <div class="content-right">
-          <div class="map">412</div>
-          <div class="nearby">412</div>
+          <div class="map">地图</div>
+          <div class="nearby">附近的人 战斗日志</div>
         </div>
 
       </div>
       <div class="right">
         <div class="right-up">
           <p class="world" v-for="item in msgList">
-            【世界】<span class="pointer-nickname">{{ item.nickname }}</span>：{{ item.msg }}</p>
+            <cadetblue>【世界】</cadetblue>  <span class="pointer-nickname">{{ item.nickname }}</span>：{{ item.msg }}</p>
         </div>
         <div class="right-down">
           <div class="right-down-line">
@@ -36,22 +39,43 @@
 </template>
 
 <script>
+function resetScroll() {
+  var contentInfo = document.getElementById("content-info")
+  if (contentInfo.scrollHeight) {
+    contentInfo.scrollTop = contentInfo.scrollHeight;
+  }
+}
+
 export default {
   name: 'Content',
   data() {
     return {
+      levelMap: {
+        boolean: {
+          0: '普通百姓',
+          1: '初入江湖',
+          3: ''
+        }
+      },
       path: "ws://127.0.0.1:24680/ws",
       socket: "",
       nowTime: '',
       msg: '',
       msgList: [],
-      role: {}
+      role: {},
+      contentList: []
     }
-
   },
   mounted() {
     this.nowTimes()
     this.init()
+  },
+  watch: {
+    contentList(oldValue, newValue) {
+      if (newValue.length >= 300) {
+        newValue.shift();
+      }
+    },
   },
   methods: {
     sendMsg() {
@@ -59,10 +83,10 @@ export default {
         let data = {
           "command": "msg",
           "msg": this.msg,
-          "nickname":this.role.nickname
+          "nickname": this.role.nickname
         }
         this.send(JSON.stringify(data))
-        this.msg=''
+        this.msg = ''
       }
     },
     init: function () {
@@ -97,22 +121,25 @@ export default {
         location.reload();
       }
     },
-    error: function () {
-      console.log("连接错误")
+    error: function (event) {
+      console.log('WebSocket error: ', event);
     },
     getMessage: function (msg) {
       console.log("收到消息：", msg.data, typeof msg.data)
       var obj = JSON.parse(msg.data);
       if (obj.code === "200") {
         if (obj.command === "add msg") { // 聊天室消息添加
-            this.msgList.push({
-              nickname: obj.nickname,
-              msg: obj.msg
-            })
+          this.msgList.push({
+            nickname: obj.nickname,
+            msg: obj.msg
+          })
         } else if (obj.command === "login") { // 登录返回
           this.role = obj.roleInfo
-        } else if (obj.command === "other login"){ // 异地登录提示
+        } else if (obj.command === "other login") { // 异地登录提示
           console.log(obj.msg)
+        } else if (obj.command === "add content info") { // 添加 content info
+          this.contentList.push(obj.msg)
+          resetScroll();
         }
       } else {
         this.$bus.emit("loading", obj.msg)
@@ -157,10 +184,10 @@ export default {
 </script>
 
 <style scoped="scoped">
-.jy {
-  color: #42B983;
+.content-wel{
+  text-align: start !important;
+  padding: 0 10px;
 }
-
 .world {
   color: black;
 }
@@ -173,39 +200,57 @@ export default {
 
 .ops-box .left {
   width: 80%;
-  /* background-color: #42B983; */
   border-radius: 0 0 0 12px;
   display: flex;
 }
+
 .content-left {
   width: 70%;
-  background: #42B983;
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
+  border-radius: 0 0 0 12px;
 }
-.content-right .map{
+
+.content-left .map-info {
+  height: 20%;
+  border-bottom: 2px solid #DEB887;
+}
+
+.content-left .content-info {
+  height: 80%;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.content-info::-webkit-scrollbar {
+  display: none;
+}
+
+.content-right .map {
   width: 100%;
-  height: 30%;
-  background: blueviolet;
+  height: 20%;
+  border-bottom: 2px solid #DEB887;
 }
-.content-right .nearby{
-  height: 70%;
+
+.content-right .nearby {
+  height: 80%;
   width: 100%;
-  background: aquamarine;
 }
-.content-right{
+
+.content-right {
   width: 30%;
-  background: #eeeeee;
+  border-left: 2px solid #DEB887;
+
 }
-
-
 
 .ops-box .right {
   width: 20%;
   border-left: 2px solid #DEB887;
   /* background-color: #3cbb26; */
   border-radius: 0 0 12px 0;
-
   display: flex;
   flex-flow: column;
 }
@@ -213,10 +258,11 @@ export default {
 .ops-box .right .right-up {
   height: 88%;
   width: 100%;
+  overflow: scroll;
 }
 
 .ops-box .right .right-down {
-  border-top: solid 1px #DEB887;
+  border-top: solid 2px #DEB887;
   height: 14%;
   width: 100%;
 }
