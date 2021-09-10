@@ -9,9 +9,9 @@
 			</p>
 			<p>性别:
 				&nbsp;&nbsp;
-				<label><input v-model="sex" :checked="sex ==1" type="radio" name="sex" value="1">男性</label>
+				<label><input v-model="sex" :checked="sex ===1" type="radio" name="sex" value="1">男性</label>
 				&nbsp;&nbsp;&nbsp;&nbsp;
-				<label><input v-model="sex" :checked="sex ==0" type="radio" name="sex" value="0">女性</label>
+				<label><input v-model="sex" :checked="sex ===0" type="radio" name="sex" value="0">女性</label>
 			</p>
 			<p>初始属性：</p>
 			<p>
@@ -20,7 +20,7 @@
 			<p>
 				悟性：<input type="number" v-model="WX" max="30" min="15" />&nbsp;&nbsp;&nbsp;&nbsp;
 				身法：<input type="number" v-model="SF" max="30" min="15" /></p>
-			<p class="error-text" v-show="showMsg!=''">{{showMsg}}</p>
+			<p class="error-text" v-show="showMsg!==''">{{showMsg}}</p>
 			<p>每项不低于15点，不高于30点，合计80点</p>
 		</div>
 		<div class="options">
@@ -35,17 +35,12 @@ TODO：
 	2、nickname 需要默认随机名称
  -->
 <script>
-	import randomName from '../assets/js/random-name.js'
-	import {
-		createRoleApi
-	} from '../api/UserApi.js'
+import randomName from '../assets/js/random-name.js'
+import {createRoleApi} from '@/api/UserApi'
 
-	function Chinasimple(str) {
-		var strs = str.replace(/(^\s+)|(\s+$)/g, ""); //去除前后的空格
-		if (!strs.match(/^[\u4e00-\u9fa5]{2,4}$/)) { //我习惯用match
-			return false;
-		}
-		return true;
+function chinaSimple(str) {
+		var strs = str.replace(/(^\s+)|(\s+$)/g, "");
+		return strs.match(/^[\u4e00-\u9fa5]{2,4}$/);
 	}
 	export default {
 		name: 'RoleCreate',
@@ -94,8 +89,8 @@ TODO：
 				}
 			},
 			nickname(newValue, oldValue) {
-				console.log(newValue, oldValue, Chinasimple(newValue))
-				if (!Chinasimple(newValue)) {
+				console.log(newValue, oldValue, chinaSimple(newValue))
+				if (!chinaSimple(newValue)) {
 					this.showMsg = "昵称只能2-4个汉字～"
 				} else {
 					this.showMsg = ''
@@ -104,10 +99,10 @@ TODO：
 		},
 		methods: {
 			async signIn() {
-				if (this.nickname == "") {
+				if (this.nickname === "") {
 					this.showMsg = "昵称只能2-4个汉字～"
 				}
-				if (this.showMsg != "") {
+				if (this.showMsg !== "") {
 					alert(this.showMsg)
 				} else {
 					this.bus.$emit('loading', "创建角色中...");
@@ -135,25 +130,6 @@ TODO：
 			genName() {
 				this.nickname = randomName.getName()
 			},
-			ramdomData(list,min,max,currentMax){
-				if(list.length === 4)
-					return list
-				if(list.length ===3){
-					list.push(80-(list[0]+list[1]+list[2]))
-					return list
-				}
-				 
-				var num = RandomNumBoth(min,max)
-				list.push(num)
-				currentMax = currentMax-num
-				return ramdomData(list,min,currentMax-max,currentMax)
-			},
-			RandomNumBoth(Min,Max){            
-			    var Range = Max - Min;            
-			    var Rand = Math.random();            
-			    var num = Min + Math.round(Rand * Range); //四舍五入            
-			    return num;
-			}
 		}
 	}
 </script>

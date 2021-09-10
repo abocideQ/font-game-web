@@ -1,7 +1,7 @@
 <template>
   <div class="home-title">
     <div class="welcome content-wel">
-      <p>{{ role.nickname }} · {{ levelMap.boolean[role.level]}} · {{nowTime}}</p>
+      <p>{{ role.nickname }} · {{ levelMap.boolean[role.level] }} · {{ nowTime }}</p>
     </div>
     <div class="ops-box">
       <div class="left">
@@ -19,18 +19,21 @@
 
       </div>
       <div class="right">
-        <div class="right-up">
+        <div class="right-up" id="msg-list">
           <p class="world" v-for="item in msgList">
-            <cadetblue>【世界】</cadetblue>  <span class="pointer-nickname">{{ item.nickname }}</span>：{{ item.msg }}</p>
+            <cadetblue>【世界】</cadetblue>
+            <span class="pointer-nickname">{{ item.nickname }}</span>：{{ item.msg }}
+          </p>
         </div>
         <div class="right-down">
           <div class="right-down-line">
             <label><input type="radio" name="type" value="1">世界</label>
-            <!--						<label><input type="radio" name="type" value="2">交易</label>-->
+            <!--<label><input type="radio" name="type" value="2">交易</label>-->
           </div>
           <textarea v-model="msg" type="text" value="" placeholder="说点啥..."/>
           <div class="msg-ops">
-            <button @click="sendMsg">发送</button>
+            <button v-if="times === 11 || times === 0" @click="sendMsg">发送</button>
+            <button v-else> {{times}} </button>
           </div>
         </div>
       </div>
@@ -39,10 +42,16 @@
 </template>
 
 <script>
+
+
 function resetScroll() {
   var contentInfo = document.getElementById("content-info")
   if (contentInfo.scrollHeight) {
     contentInfo.scrollTop = contentInfo.scrollHeight;
+  }
+  var msgList = document.getElementById("msg-list")
+  if (msgList.scrollHeight) {
+    msgList.scrollTop = msgList.scrollHeight;
   }
 }
 
@@ -50,6 +59,7 @@ export default {
   name: 'Content',
   data() {
     return {
+      times: 11,
       levelMap: {
         boolean: {
           0: '普通百姓',
@@ -76,13 +86,34 @@ export default {
         newValue.shift();
       }
     },
+    msgList(oldValue, newValue) {
+      if (newValue.length >= 300) {
+        newValue.shift();
+      }
+    },
+    times(oldValue,newValue){
+      if (newValue <= 0){
+        this.times = 11
+      }
+    }
   },
   methods: {
+    timesCount() {
+      this.times--;
+      this.timer = setInterval(()=>{
+        this.times--
+        if(this.times===0){
+          clearInterval(this.timer)
+        }
+      },1000)
+    },
     sendMsg() {
-      if (this.msg !== '') {
-        let data = {
+      let msg = this.msg.replace(/^\s+|\s+$/g, "");
+      if (msg && msg !== '') {
+        this.timesCount()
+          let data = {
           "command": "msg",
-          "msg": this.msg,
+          "msg": msg,
           "nickname": this.role.nickname
         }
         this.send(JSON.stringify(data))
@@ -133,6 +164,7 @@ export default {
             nickname: obj.nickname,
             msg: obj.msg
           })
+          resetScroll();
         } else if (obj.command === "login") { // 登录返回
           this.role = obj.roleInfo
         } else if (obj.command === "other login") { // 异地登录提示
@@ -184,10 +216,11 @@ export default {
 </script>
 
 <style scoped="scoped">
-.content-wel{
+.content-wel {
   text-align: start !important;
   padding: 0 10px;
 }
+
 .world {
   color: black;
 }
@@ -213,7 +246,7 @@ export default {
 
 .content-left .map-info {
   height: 20%;
-  border-bottom: 2px solid #DEB887;
+  border-bottom: 1px solid #DEB887;
 }
 
 .content-left .content-info {
@@ -232,7 +265,7 @@ export default {
 .content-right .map {
   width: 100%;
   height: 20%;
-  border-bottom: 2px solid #DEB887;
+  border-bottom: 1px solid #DEB887;
 }
 
 .content-right .nearby {
@@ -242,13 +275,13 @@ export default {
 
 .content-right {
   width: 30%;
-  border-left: 2px solid #DEB887;
+  border-left: 1px solid #DEB887;
 
 }
 
 .ops-box .right {
   width: 20%;
-  border-left: 2px solid #DEB887;
+  border-left: 1px solid #DEB887;
   /* background-color: #3cbb26; */
   border-radius: 0 0 12px 0;
   display: flex;
@@ -258,11 +291,16 @@ export default {
 .ops-box .right .right-up {
   height: 88%;
   width: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+
+.right-up::-webkit-scrollbar {
+  display: none;
 }
 
 .ops-box .right .right-down {
-  border-top: solid 2px #DEB887;
+  border-top: solid 1px #DEB887;
   height: 14%;
   width: 100%;
 }
