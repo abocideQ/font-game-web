@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div class="home-title">
     <div class="welcome content-wel">
       <p>{{ role.nickname }} · {{ levelMap.boolean[role.level] }} · {{ nowTime }}</p>
@@ -9,12 +9,84 @@
         <div class="content-left">
           <div class="map-info">地图描述</div>
           <div class="content-info" id="content-info">
+            <div class="openShuXin" v-show="shuXinView">
+              <div class="openShuXinOps baseline">
+                <span class="shuXinTitle">&nbsp&nbsp&nbsp人物属性：</span><br>
+                <span class="shuXinTitle" @click="openShuXin" style="margin-right: 2px">❌&nbsp关闭</span>
+              </div>
+              <div class="shuXinBox">
+                <div class="shuXinBoxLeft">
+                  <p><span class="highlight">【昵称】</span>{{ role.nickname }}</p>
+                  <p><span class="highlight">【性别】</span>{{ sexMap.boolean[role.sex] }} </p>
+                  <p><span class="highlight">【经验】</span>32168412 </p>
+                  <p><span class="highlight">【气血】</span>214414 / 2313798 </p>
+                  <p><span class="highlight">【内力】</span>2134 / 22129</p>
+                  <p><span class="highlight">【内力上限】</span>22129</p>
+                </div>
+                <div class="shuXinBoxRight">
+                  <p><span class="highlight">【称号】</span>逍遥派第四代弟子 </p>
+                  <p><span class="highlight">【境界】</span>{{ levelMap.boolean[role.level] }}</p>
+                  <p> <span class="highlight">【潜能】</span>2132174</p>
+                  <p><span class="highlight">【年龄】</span>12年十天</p>
+                </div>
+              </div>
+
+              <div class="shuXinContainer">
+                <div style="width: 50%">
+                  <div class="openShuXinOps baseline">
+                    <span class="shuXinTitle">&nbsp&nbsp&nbsp先天属性：</span>
+                  </div>
+                  <div class="shuXinBox">
+                    <div class="shuXinBoxLeft">
+                      <p><span class="highlight">【武力】</span>{{ role.wl }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【身法】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
+                    </div>
+                    <div class="shuXinBoxRight">
+                      <p><span class="highlight">【根骨】</span>{{ role.gg }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【悟性】</span>{{ role.wx }}&nbsp&nbsp&nbsp&nbsp</p>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 50%">
+                  <div class="openShuXinOps baseline">
+                    <span class="shuXinTitle">&nbsp&nbsp&nbsp战斗属性：</span>
+                  </div>
+                  <div class="shuXinBox">
+                    <div class="shuXinBoxLeft">
+                      <p><span class="highlight">【攻击】</span>{{ role.wl }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【防御】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【躲闪】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【暴击】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【打坐效率】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
+                    </div>
+                    <div class="shuXinBoxRight">
+                      <p><span class="highlight">【攻击速度】</span>{{ role.gg }} </p>
+                      <p><span class="highlight">【招架】</span>{{ role.wx }}</p>
+                      <p><span class="highlight">【命中】</span>{{ role.wx }}</p>
+                      <p><span class="highlight">【暴击伤害】</span>{{ role.wx }}</p>
+                      <p><span class="highlight">【修炼效率】</span>{{ role.sf }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
             <p v-for="item in contentList" v-html="item"></p>
           </div>
         </div>
         <div class="content-right">
           <div class="map">地图</div>
-          <div class="nearby">附近的人 战斗日志</div>
+          <div class="nearby">
+            <div class="nearby-user">附近的人</div>
+            <div class="user-ops">
+              <span class="shuxin" @click="openShuXin">属性</span>
+              <span class="zhuangbei">背包</span>
+              <span class="jineng">技能</span>
+              <span class="renwu">任务</span>
+              <span class="paihang">排行</span>
+              <span class="paimaihang">拍卖行</span>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -33,7 +105,7 @@
           <textarea v-model="msg" type="text" value="" placeholder="说点啥..."/>
           <div class="msg-ops">
             <button v-if="times === 11 || times === 0" @click="sendMsg">发送</button>
-            <button v-else> {{times}} </button>
+            <button v-else style="padding: 3px 10px"> {{ times }}</button>
           </div>
         </div>
       </div>
@@ -60,6 +132,12 @@ export default {
   data() {
     return {
       times: 11,
+      sexMap: {
+        boolean: {
+          1: '男性',
+          0: '女性'
+        }
+      },
       levelMap: {
         boolean: {
           0: '普通百姓',
@@ -73,7 +151,8 @@ export default {
       msg: '',
       msgList: [],
       role: {},
-      contentList: []
+      contentList: [],
+      shuXinView: false,
     }
   },
   mounted() {
@@ -91,27 +170,30 @@ export default {
         newValue.shift();
       }
     },
-    times(oldValue,newValue){
-      if (newValue <= 0){
+    times(oldValue, newValue) {
+      if (newValue <= 0) {
         this.times = 11
       }
     }
   },
   methods: {
+    openShuXin() {
+      this.shuXinView = !this.shuXinView
+    },
     timesCount() {
       this.times--;
-      this.timer = setInterval(()=>{
+      this.timer = setInterval(() => {
         this.times--
-        if(this.times===0){
+        if (this.times === 0) {
           clearInterval(this.timer)
         }
-      },1000)
+      }, 1000)
     },
     sendMsg() {
       let msg = this.msg.replace(/^\s+|\s+$/g, "");
       if (msg && msg !== '') {
         this.timesCount()
-          let data = {
+        let data = {
           "command": "msg",
           "msg": msg,
           "nickname": this.role.nickname
@@ -167,8 +249,10 @@ export default {
           resetScroll();
         } else if (obj.command === "login") { // 登录返回
           this.role = obj.roleInfo
+          this.contentList.push(obj.msg)
         } else if (obj.command === "other login") { // 异地登录提示
           console.log(obj.msg)
+          this.contentList.push(obj.msg)
         } else if (obj.command === "add content info") { // 添加 content info
           this.contentList.push(obj.msg)
           resetScroll();
@@ -182,6 +266,7 @@ export default {
     },
     close: function () {
       console.log("socket已经关闭")
+      this.contentList.push("服务器连接已关闭，请尝试重新登录")
     },
     //显示当前时间（年月日时分秒）
     timeFormate(timeStamp) {
@@ -334,4 +419,72 @@ export default {
   border: none;
   margin-bottom: 5px;
 }
+
+.nearby {
+  display: flex;
+  flex-flow: column;
+}
+
+.nearby-user {
+  height: 70%;
+  width: 100%;
+  border-bottom: solid 1px #DEB887;
+}
+
+.user-ops {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-ops > span {
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 12px;
+  background-color: #F0F8FF;
+}
+
+.openShuXin {
+  height: 60%;
+  background-color: #DEB887;
+}
+
+.shuXinBox {
+  display: flex;
+  flex-flow: row;
+  justify-content: start;
+}
+
+.shuXinTitle {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.shuXinBoxLeft > p,
+.shuXinBoxRight > p {
+  margin: 5px;
+}
+
+.baseline {
+  border-bottom: 1px dashed #333333;
+}
+
+.openShuXinOps {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.shuXinContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-flow: row;
+  justify-content: start;
+}
+
+.highlight {
+  color: #204969
+}
+
 </style>
