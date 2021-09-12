@@ -145,7 +145,7 @@ export default {
           3: ''
         }
       },
-      path: "ws://127.0.0.1:24680/ws",
+      path: "ws://127.0.0.1:8080/ws",
       socket: "",
       nowTime: '',
       msg: '',

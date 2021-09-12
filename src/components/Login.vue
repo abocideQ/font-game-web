@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="options">
-			<span v-show="showMsg!=''" style="color: red;">{{showMsg}}</span>
+			<span v-show="showMsg!==''" style="color: red;">{{showMsg}}</span>
 			<span class="pointer" @click="login()">登录</span>
 			<span class="pointer">忘记密码</span>
 			<span class="pointer" @click="toRegister()">注册账号</span>
@@ -41,8 +41,8 @@
 					"password": this.password
 				}).then((res) => {
 					if (res.data.code === 200) {
-						localStorage.setItem("t", res.data.data.t)
-						location.reload();
+						localStorage.setItem("t", res.data.data)
+            location.reload();
 					} else {
 						this.showMsg = res.data.msg
 					}
