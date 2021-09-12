@@ -40,10 +40,12 @@
                     <div class="shuXinBoxLeft">
                       <p><span class="highlight">【武力】</span>{{ role.wl }}&nbsp&nbsp&nbsp&nbsp</p>
                       <p><span class="highlight">【身法】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【容貌】</span>23&nbsp&nbsp&nbsp&nbsp</p>
                     </div>
                     <div class="shuXinBoxRight">
                       <p><span class="highlight">【根骨】</span>{{ role.gg }}&nbsp&nbsp&nbsp&nbsp</p>
                       <p><span class="highlight">【悟性】</span>{{ role.wx }}&nbsp&nbsp&nbsp&nbsp</p>
+                      <p><span class="highlight">【福缘】</span>34&nbsp&nbsp&nbsp&nbsp</p>
                     </div>
                   </div>
                 </div>
@@ -145,7 +147,7 @@ export default {
           3: ''
         }
       },
-      path: "ws://127.0.0.1:8080/ws",
+      path: "ws://127.0.0.1:8080/ws?r=",
       socket: "",
       nowTime: '',
       msg: '',
@@ -207,7 +209,7 @@ export default {
         alert("您的浏览器不支持socket")
       } else {
         // 实例化socket
-        this.socket = new WebSocket(this.path)
+        this.socket = new WebSocket(this.path+localStorage.getItem("r"))
         // 监听socket连接
         this.socket.onopen = this.open
         // 监听socket错误信息
@@ -258,14 +260,13 @@ export default {
           resetScroll();
         }
       } else {
-        this.$bus.emit("loading", obj.msg)
+        this.bus.$emit("loading", obj.msg)
       }
     },
     send: function (params) {
       this.socket.send(params)
     },
     close: function () {
-      console.log("socket已经关闭")
       this.contentList.push("服务器连接已关闭，请尝试重新登录")
     },
     //显示当前时间（年月日时分秒）
