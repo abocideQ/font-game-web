@@ -228,8 +228,6 @@ export default {
           "t": localStorage.getItem("t")
         }
         this.send(JSON.stringify(loginData));
-
-
       } else {
         localStorage.removeItem("t")
         localStorage.removeItem("r")
@@ -250,7 +248,7 @@ export default {
           })
           resetScroll();
         } else if (obj.command === "login") { // 登录返回
-          this.role = obj.roleInfo
+          this.role = obj.roleInfo.property
           this.contentList.push(obj.msg)
         } else if (obj.command === "other login") { // 异地登录提示
           console.log(obj.msg)
