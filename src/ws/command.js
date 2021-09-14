@@ -1,8 +1,37 @@
 let vm = null;
+function resetScroll() {
+    var contentInfo = document.getElementById("content-info")
+    if (contentInfo.scrollHeight) {
+        contentInfo.scrollTop = contentInfo.scrollHeight;
+    }
+    var msgList = document.getElementById("msg-list")
+    if (msgList.scrollHeight) {
+        msgList.scrollTop = msgList.scrollHeight;
+    }
+}
 
 const sendThis = (_this) => {
     vm = _this;
 };
+export function connect(){
+    console.log("socket连接成功")
+    this.bus.$emit('loading', "服务器连接成功");
+    if (localStorage.getItem("t") && localStorage.getItem("r")) {
+        let loginData = {
+            "command": "login",
+            "r": localStorage.getItem("r"),
+            "t": localStorage.getItem("t")
+        }
+        this.send(JSON.stringify(loginData));
+    } else {
+        localStorage.removeItem("t")
+        localStorage.removeItem("r")
+        location.reload();
+    }
+}
+
+
+
 
 export function listenMsg(msg) {
     console.log("收到消息：", msg.data, typeof msg.data)

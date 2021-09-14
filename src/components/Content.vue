@@ -118,18 +118,9 @@
 <script>
 
 
-function resetScroll() {
-  var contentInfo = document.getElementById("content-info")
-  if (contentInfo.scrollHeight) {
-    contentInfo.scrollTop = contentInfo.scrollHeight;
-  }
-  var msgList = document.getElementById("msg-list")
-  if (msgList.scrollHeight) {
-    msgList.scrollTop = msgList.scrollHeight;
-  }
-}
 
-import Command, {listenMsg} from '../ws/command'
+
+import Command, {listenMsg,connect} from '../ws/command'
 
 export default {
 
@@ -223,20 +214,7 @@ export default {
       }
     },
     open: function () {
-      console.log("socket连接成功")
-      this.bus.$emit('loading', "服务器连接成功");
-      if (localStorage.getItem("t") && localStorage.getItem("r")) {
-        let loginData = {
-          "command": "login",
-          "r": localStorage.getItem("r"),
-          "t": localStorage.getItem("t")
-        }
-        this.send(JSON.stringify(loginData));
-      } else {
-        localStorage.removeItem("t")
-        localStorage.removeItem("r")
-        location.reload();
-      }
+      connect()
     },
     error: function (event) {
       console.log('WebSocket error: ', event);
@@ -250,30 +228,6 @@ export default {
     close: function () {
       this.contentList.push("服务器连接已关闭，请尝试重新登录")
     },
-    //显示当前时间（年月日时分秒）
-    timeFormate(timeStamp) {
-      let year = new Date(timeStamp).getFullYear();
-      let month = new Date(timeStamp).getMonth() + 1 < 10 ? "0" + (new Date(timeStamp).getMonth() + 1) :
-          new Date(timeStamp).getMonth() + 1;
-      let date = new Date(timeStamp).getDate() < 10 ? "0" + new Date(timeStamp).getDate() : new Date(timeStamp)
-          .getDate();
-      let hh = new Date(timeStamp).getHours() < 10 ? "0" + new Date(timeStamp).getHours() : new Date(timeStamp)
-          .getHours();
-      let mm = new Date(timeStamp).getMinutes() < 10 ? "0" + new Date(timeStamp).getMinutes() : new Date(
-          timeStamp).getMinutes();
-      let ss = new Date(timeStamp).getSeconds() < 10 ? "0" + new Date(timeStamp).getSeconds() : new Date(
-          timeStamp).getSeconds();
-      this.nowTime = year + "年" + month + "月" + date + "日" + " " + hh + ":" + mm + ':' + ss;
-    },
-    nowTimes() {
-      this.timeFormate(new Date());
-      setInterval(this.nowTimes, 1000);
-      this.clear()
-    },
-    clear() {
-      clearInterval(this.nowTimes)
-      this.nowTimes = null;
-    }
   },
   destroyed() {
     // 销毁监听
