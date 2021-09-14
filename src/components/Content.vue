@@ -1,7 +1,11 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="home-title">
     <div class="welcome content-wel">
-      <p>{{ role.nickname }} · {{ levelMap.boolean[role.level] }} · {{ nowTime }}</p>
+      <p>{{ roleBase.nickname }}&nbsp&nbsp
+        等级&nbsp{{ roleBase.level }}&nbsp&nbsp经验&nbsp{{ roleBase.exp }}&nbsp/&nbsp{{ roleBase.nextExp }}
+        &nbsp&nbsp气血&nbsp{{ roleBase.hp }}&nbsp/&nbsp{{ roleBase.maxHp }}&nbsp&nbsp内力&nbsp{{
+          roleBase.mp
+        }}&nbsp/&nbsp{{ roleBase.maxMp }}</p>
     </div>
     <div class="ops-box">
       <div class="left">
@@ -9,70 +13,7 @@
         <div class="content-left">
           <div class="map-info">地图描述</div>
           <div class="content-info" id="content-info">
-            <div class="openShuXin" v-show="shuXinView">
-              <div class="openShuXinOps baseline">
-                <span class="shuXinTitle">&nbsp&nbsp&nbsp人物属性：</span><br>
-                <span class="shuXinTitle" @click="openShuXin" style="margin-right: 2px">❌&nbsp关闭</span>
-              </div>
-              <div class="shuXinBox">
-                <div class="shuXinBoxLeft">
-                  <p><span class="highlight">【昵称】</span>{{ role.nickname }}</p>
-                  <p><span class="highlight">【性别】</span>{{ sexMap.boolean[role.sex] }} </p>
-                  <p><span class="highlight">【经验】</span>32168412 </p>
-                  <p><span class="highlight">【气血】</span>214414 / 2313798 </p>
-                  <p><span class="highlight">【内力】</span>2134 / 22129</p>
-                  <p><span class="highlight">【内力上限】</span>22129</p>
-                </div>
-                <div class="shuXinBoxRight">
-                  <p><span class="highlight">【称号】</span>逍遥派第四代弟子 </p>
-                  <p><span class="highlight">【境界】</span>{{ levelMap.boolean[role.level] }}</p>
-                  <p><span class="highlight">【潜能】</span>2132174</p>
-                  <p><span class="highlight">【年龄】</span>12年十天</p>
-                </div>
-              </div>
-
-              <div class="shuXinContainer">
-                <div style="width: 50%">
-                  <div class="openShuXinOps baseline">
-                    <span class="shuXinTitle">&nbsp&nbsp&nbsp先天属性：</span>
-                  </div>
-                  <div class="shuXinBox">
-                    <div class="shuXinBoxLeft">
-                      <p><span class="highlight">【武力】</span>{{ role.wl }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【身法】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【容貌】</span>23&nbsp&nbsp&nbsp&nbsp</p>
-                    </div>
-                    <div class="shuXinBoxRight">
-                      <p><span class="highlight">【根骨】</span>{{ role.gg }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【悟性】</span>{{ role.wx }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【福缘】</span>34&nbsp&nbsp&nbsp&nbsp</p>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 50%">
-                  <div class="openShuXinOps baseline">
-                    <span class="shuXinTitle">&nbsp&nbsp&nbsp战斗属性：</span>
-                  </div>
-                  <div class="shuXinBox">
-                    <div class="shuXinBoxLeft">
-                      <p><span class="highlight">【攻击】</span>{{ role.wl }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【防御】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【躲闪】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【暴击】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
-                      <p><span class="highlight">【打坐效率】</span>{{ role.sf }}&nbsp&nbsp&nbsp&nbsp</p>
-                    </div>
-                    <div class="shuXinBoxRight">
-                      <p><span class="highlight">【攻击速度】</span>{{ role.gg }} </p>
-                      <p><span class="highlight">【招架】</span>{{ role.wx }}</p>
-                      <p><span class="highlight">【命中】</span>{{ role.wx }}</p>
-                      <p><span class="highlight">【暴击伤害】</span>{{ role.wx }}</p>
-                      <p><span class="highlight">【修炼效率】</span>{{ role.sf }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
+            <Property v-bind:role="role" v-on:close-shu-xin="shuXinView=$event" v-show="shuXinView"/>
             <p v-for="item in contentList" v-html="item"></p>
           </div>
         </div>
@@ -102,7 +43,7 @@
         <div class="right-down">
           <div class="right-down-line">
             <label><input type="radio" name="type" value="1">世界</label>
-            <!--<label><input type="radio" name="type" value="2">交易</label>-->
+            <!--<label><input type="radio" name="type" value="2">交易</label> -->
           </div>
           <textarea v-model="msg" type="text" value="" placeholder="说点啥..."/>
           <div class="msg-ops">
@@ -118,13 +59,14 @@
 <script>
 
 
-
-
-import Command, {listenMsg,connect} from '../ws/command'
+import WS, {listenMsg, connect, send} from '../ws/WebSocket'
+import Property from "@/components/Property";
 
 export default {
-
   name: 'Content',
+  components: {
+    Property
+  },
   data() {
     return {
       times: 11,
@@ -146,13 +88,15 @@ export default {
       nowTime: '',
       msg: '',
       msgList: [],
-      role: {},
+      role: {
+        property: {}
+      },
+      roleBase: {},
       contentList: [],
       shuXinView: false,
     }
   },
   mounted() {
-    this.nowTimes()
     this.init()
   },
   watch: {
@@ -175,6 +119,12 @@ export default {
   methods: {
     openShuXin() {
       this.shuXinView = !this.shuXinView
+      if (this.shuXinView) {
+        let req = {
+          "command": "look"
+        }
+        send(JSON.stringify(req))
+      }
     },
     timesCount() {
       this.times--;
@@ -210,7 +160,7 @@ export default {
         this.socket.onerror = this.error
         // 监听socket消息
         this.socket.onmessage = this.getMessage
-        Command(this)
+        WS(this)
       }
     },
     open: function () {
@@ -223,7 +173,7 @@ export default {
       listenMsg(msg)
     },
     send: function (params) {
-      this.socket.send(params)
+      send(params)
     },
     close: function () {
       this.contentList.push("服务器连接已关闭，请尝试重新登录")
