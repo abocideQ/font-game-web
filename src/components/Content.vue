@@ -26,7 +26,7 @@
                 <div class="shuXinBoxRight">
                   <p><span class="highlight">【称号】</span>逍遥派第四代弟子 </p>
                   <p><span class="highlight">【境界】</span>{{ levelMap.boolean[role.level] }}</p>
-                  <p> <span class="highlight">【潜能】</span>2132174</p>
+                  <p><span class="highlight">【潜能】</span>2132174</p>
                   <p><span class="highlight">【年龄】</span>12年十天</p>
                 </div>
               </div>
@@ -129,7 +129,10 @@ function resetScroll() {
   }
 }
 
+import Command, {listenMsg} from '../ws/command'
+
 export default {
+
   name: 'Content',
   data() {
     return {
@@ -209,13 +212,14 @@ export default {
         alert("您的浏览器不支持socket")
       } else {
         // 实例化socket
-        this.socket = new WebSocket(this.path+localStorage.getItem("r"))
+        this.socket = new WebSocket(this.path + localStorage.getItem("r"))
         // 监听socket连接
         this.socket.onopen = this.open
         // 监听socket错误信息
         this.socket.onerror = this.error
         // 监听socket消息
         this.socket.onmessage = this.getMessage
+        Command(this)
       }
     },
     open: function () {
@@ -238,28 +242,7 @@ export default {
       console.log('WebSocket error: ', event);
     },
     getMessage: function (msg) {
-      console.log("收到消息：", msg.data, typeof msg.data)
-      var obj = JSON.parse(msg.data);
-      if (obj.code === "200") {
-        if (obj.command === "add msg") { // 聊天室消息添加
-          this.msgList.push({
-            nickname: obj.nickname,
-            msg: obj.msg
-          })
-          resetScroll();
-        } else if (obj.command === "login") { // 登录返回
-          this.role = obj.roleInfo.property
-          this.contentList.push(obj.msg)
-        } else if (obj.command === "other login") { // 异地登录提示
-          console.log(obj.msg)
-          this.contentList.push(obj.msg)
-        } else if (obj.command === "add content info") { // 添加 content info
-          this.contentList.push(obj.msg)
-          resetScroll();
-        }
-      } else {
-        this.bus.$emit("loading", obj.msg)
-      }
+      listenMsg(msg)
     },
     send: function (params) {
       this.socket.send(params)
