@@ -1,7 +1,7 @@
 let vm = null;
 import Handler, {
     add_content_info,
-    add_msg, login, look, other_login
+    add_msg, login, look, other_login, _package
 
 } from "./Handler"
 
@@ -40,6 +40,8 @@ export function listenMsg(msg) {
             add_content_info(obj)
         } else if (obj.command === "look") {
             look(obj)
+        } else if (obj.command === "package") {
+            _package(obj)
         }
     } else {
         vm.bus.$emit("loading", obj.msg)

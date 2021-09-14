@@ -9,11 +9,11 @@
     </div>
     <div class="ops-box">
       <div class="left">
-
         <div class="content-left">
           <div class="map-info">地图描述</div>
           <div class="content-info" id="content-info">
             <Property v-bind:role="role" v-on:close-shu-xin="shuXinView=$event" v-show="shuXinView"/>
+            <Package v-on:close-package="packageView=$event" v-show="packageView"/>
             <p v-for="item in contentList" v-html="item"></p>
           </div>
         </div>
@@ -23,7 +23,7 @@
             <div class="nearby-user">附近的人</div>
             <div class="user-ops">
               <span class="shuxin" @click="openShuXin">属性</span>
-              <span class="zhuangbei">背包</span>
+              <span class="zhuangbei" @click="openPackage">背包</span>
               <span class="jineng">技能</span>
               <span class="renwu">任务</span>
               <span class="paihang">排行</span>
@@ -31,7 +31,6 @@
             </div>
           </div>
         </div>
-
       </div>
       <div class="right">
         <div class="right-up" id="msg-list">
@@ -61,11 +60,13 @@
 
 import WS, {listenMsg, connect, send} from '../ws/WebSocket'
 import Property from "@/components/Property";
+import Package from "@/components/Package";
 
 export default {
   name: 'Content',
   components: {
-    Property
+    Property,
+    Package,
   },
   data() {
     return {
@@ -92,8 +93,10 @@ export default {
         property: {}
       },
       roleBase: {},
+      package:{},
       contentList: [],
       shuXinView: false,
+      packageView: false,
     }
   },
   mounted() {
@@ -117,6 +120,15 @@ export default {
     }
   },
   methods: {
+    openPackage() {
+      this.packageView = !this.packageView
+      if (this.packageView) {
+        let req = {
+          "command": "package"
+        }
+        send(JSON.stringify(req))
+      }
+    },
     openShuXin() {
       this.shuXinView = !this.shuXinView
       if (this.shuXinView) {
@@ -287,8 +299,6 @@ export default {
   margin: 5px;
 }
 
-.right-down .send {
-}
 
 .right-up > p {
   padding-top: 5px;
@@ -331,46 +341,5 @@ export default {
   background-color: #F0F8FF;
 }
 
-.openShuXin {
-  height: 60%;
-  background-color: #DEB887;
-}
-
-.shuXinBox {
-  display: flex;
-  flex-flow: row;
-  justify-content: start;
-}
-
-.shuXinTitle {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.shuXinBoxLeft > p,
-.shuXinBoxRight > p {
-  margin: 5px;
-}
-
-.baseline {
-  border-bottom: 1px dashed #333333;
-}
-
-.openShuXinOps {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.shuXinContainer {
-  margin-top: 10px;
-  display: flex;
-  flex-flow: row;
-  justify-content: start;
-}
-
-.highlight {
-  color: #204969
-}
 
 </style>

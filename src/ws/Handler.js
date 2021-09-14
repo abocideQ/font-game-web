@@ -15,7 +15,7 @@ const sendThis = (_this) => {
     vm = _this;
 };
 
-export function add_msg(obj){
+export function add_msg(obj) {
     vm.msgList.push({
         nickname: obj.nickname,
         msg: obj.msg
@@ -23,15 +23,16 @@ export function add_msg(obj){
     resetScroll();
 }
 
-export function other_login(obj){
+export function other_login(obj) {
     vm.contentList.push(obj.msg)
 }
-export function add_content_info(obj){
+
+export function add_content_info(obj) {
     vm.contentList.push(obj.msg)
     resetScroll();
 }
 
-export function login(obj){
+export function login(obj) {
     vm.roleBase = {
         level: obj.roleBaseInfo.level,
         nickname: obj.roleBaseInfo.nickname,
@@ -46,7 +47,7 @@ export function login(obj){
 }
 
 
-export function look(obj){
+export function look(obj) {
     vm.role = {
         sex: obj.roleInfo.sex,
         level: obj.roleInfo.level,
@@ -57,6 +58,10 @@ export function look(obj){
         hp: obj.roleInfo.hp,
         mp: obj.roleInfo.mp,
     }
+}
+
+export function _package(obj) {
+    console.log(obj)
 }
 
 export default sendThis

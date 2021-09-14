@@ -116,9 +116,6 @@ export default {
   margin: 5px;
 }
 
-.baseline {
-  border-bottom: 1px dashed #333333;
-}
 
 .openShuXinOps {
   display: flex;
@@ -132,5 +129,7 @@ export default {
   flex-flow: row;
   justify-content: start;
 }
-
+.baseline {
+  border-bottom: 1px dashed #333333;
+}
 </style>
