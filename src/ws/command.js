@@ -47,7 +47,6 @@ export function listenMsg(msg) {
             vm.role = obj.roleInfo.property
             vm.contentList.push(obj.msg)
         } else if (obj.command === "other login") { // 异地登录提示
-            console.log(obj.msg)
             vm.contentList.push(obj.msg)
         } else if (obj.command === "add content info") { // 添加 content info
             vm.contentList.push(obj.msg)
