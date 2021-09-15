@@ -54,7 +54,10 @@
 <script>
 export default {
   name: "Package",
-  props: {},
+  props: {
+    itemList:[],
+    equipmentList:[]
+  },
   data() {
     return {
       type: 1,

@@ -61,7 +61,8 @@ export function look(obj) {
 }
 
 export function _package(obj) {
-    console.log(obj)
+    console.log("obj.itemList",obj.itemList)
+    console.log("obj.equipmentList",obj.equipmentList)
 }
 
 export default sendThis
