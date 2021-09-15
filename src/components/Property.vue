@@ -1,8 +1,8 @@
 <template>
   <div class="openShuXin">
     <div class="openShuXinOps baseline">
-      <span class="shuXinTitle">&nbsp&nbsp&nbsp人物属性：</span><br>
-      <span class="shuXinTitle" @click="closeShuXin" style="margin-right: 2px">❌&nbsp关闭</span>
+      <span class="shuXinTitle">人物属性：</span><br>
+      <span class="shuXinTitle" @click="closeShuXin" style="margin-right: 2px">关闭</span>
     </div>
     <div class="shuXinBox">
       <div class="shuXinBoxLeft">

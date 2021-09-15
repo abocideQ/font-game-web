@@ -93,7 +93,7 @@ export default {
         property: {}
       },
       roleBase: {},
-      package:{},
+      package: {},
       contentList: [],
       shuXinView: false,
       packageView: false,
@@ -121,15 +121,18 @@ export default {
   },
   methods: {
     openPackage() {
+      this.shuXinView = false;
       this.packageView = !this.packageView
       if (this.packageView) {
         let req = {
+          "type": "1",
           "command": "package"
         }
         send(JSON.stringify(req))
       }
     },
     openShuXin() {
+      this.packageView = false;
       this.shuXinView = !this.shuXinView
       if (this.shuXinView) {
         let req = {
