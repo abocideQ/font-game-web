@@ -55,7 +55,7 @@
 export default {
   name: "Package",
   props: {
-    itemList:[],
+    itemList1:[],
     equipmentList:[]
   },
   data() {
