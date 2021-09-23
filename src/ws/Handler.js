@@ -33,6 +33,7 @@ export function add_content_info(obj) {
 }
 
 export function login(obj) {
+    console.log("loing",obj)
     vm.roleBase = {
         level: obj.roleBaseInfo.level,
         nickname: obj.roleBaseInfo.nickname,
@@ -61,8 +62,7 @@ export function look(obj) {
 }
 
 export function _package(obj) {
-    console.log("obj.itemList",obj.itemList)
-    console.log("obj.equipmentList",obj.equipmentList)
+    vm.itemList = obj.itemList
 }
 
 export default sendThis

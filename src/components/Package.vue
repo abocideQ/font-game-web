@@ -2,32 +2,28 @@
   <div class="openPackage">
     <div class="dashedLine tips">
       <p>你身上共有&nbsp&nbsp8&nbsp/&nbsp20&nbsp&nbsp件物品</p>
-      <span  @click="closePackage" style="margin-right: 2px;cursor: pointer">关闭</span>
+      <span @click="closePackage" style="margin-right: 2px;cursor: pointer">关闭</span>
     </div>
     <div class="box">
       <div class="row1 dashedLine">
         <div class="row1-1">
-          <div class="row1-1-1">称号：测试的才多拿点</div>
-          <div class="row1-1-1">武器：测试的才多拿点</div>
+          <div class="row1-1-1">【称号】：测试的才多拿点</div>
+          <div class="row1-1-1">【武器】：测试的才多拿点</div>
         </div>
         <div class="row1-1">
-          <div class="row1-1-1">头部：测试的才多拿点</div>
-          <div class="row1-1-1">衣服：测试的才多拿点</div>
-          <div class="row1-1-1">披风：测试的才多拿点</div>
-        </div>
-<!--        <div class="row1-1">-->
-<!--          <div class="row1-1-1">腰带：测试的才多拿点</div>-->
-<!--          <div class="row1-1-1">戒指：测试的才多拿点</div>-->
-<!--        </div>-->
-        <div class="row1-1">
-          <div class="row1-1-1">护腕：测试的才多拿点</div>
-          <div class="row1-1-1">腰带：测试的才多拿点</div>
-          <div class="row1-1-1">鞋：测试的才多拿点</div>
+          <div class="row1-1-1">【头部】：测试的才多拿点</div>
+          <div class="row1-1-1">【衣服】：测试的才多拿点</div>
+          <div class="row1-1-1">【披风】：测试的才多拿点</div>
         </div>
         <div class="row1-1">
-          <div class="row1-1-1">戒指：测试的才多拿点</div>
-          <div class="row1-1-1">项链：测试的才多拿点</div>
-          <div class="row1-1-1">饰品：测试的才多拿点</div>
+          <div class="row1-1-1">【护腕】：测试的才多拿点</div>
+          <div class="row1-1-1">【腰带】：测试的才多拿点</div>
+          <div class="row1-1-1">【鞋】：测试的才多拿点</div>
+        </div>
+        <div class="row1-1">
+          <div class="row1-1-1">【戒指】：测试的才多拿点</div>
+          <div class="row1-1-1">【项链】：测试的才多拿点</div>
+          <div class="row1-1-1">【饰品】：测试的才多拿点</div>
         </div>
       </div>
       <div class="row2">
@@ -40,10 +36,7 @@
         <div class="row3-1" v-for="list in itemList">
           <div class="row3-1-1" v-for="(item,index) in list">
             <span class="row3-1-1-hover">{{ item.name }}
-              <div
-                  class="popup">
-                32y1839721839712893代表苏啊地方奤UI护肤的四方还顺带u分三等分发撒的
-                32y1839721839712893代表苏啊地方奤UI护肤的四方还顺带u分三等分发撒的</div></span>
+              <div class="popup">{{ item.info }}</div></span>
           </div>
         </div>
       </div>
@@ -55,8 +48,31 @@
 export default {
   name: "Package",
   props: {
-    itemList1:[],
-    equipmentList:[]
+    itemList: Array,
+    equipmentList: Array
+  },
+  watch: {
+    itemList(newV, oldV) {
+      this.$nextTick(() => {
+        var ele = document.querySelectorAll(".row3-1-1");
+        console.log(ele)
+        var len = ele.length;
+        for (var i = 0; i < len; i++) {
+          let element = ele[i].querySelector(".row3-1-1-hover")
+          let alert = ele[i].querySelector(".popup")
+          element.onmousemove = function (e) {
+            alert.style.left = e.clientX + 10 + "px"
+            // alert.style.top = e.clientY - alert.clientHeight + "px"
+            alert.style.top = e.clientY + "px"
+
+            alert.style.display = "block";
+          };//鼠标移入
+          element.onmouseout = function () {
+            alert.style.display = "none";
+          };//鼠标移出
+        }
+      })
+    }
   },
   data() {
     return {
@@ -64,50 +80,9 @@ export default {
       where: {x: 0, y: 0},
       x: 0,
       y: 0,
-      itemList: [
-        [
-          {
-            name: "测试的才多拿点1"
-          },
-          {
-            name: "测试的才多拿点4"
-          },
-        ],
-        [
-          {
-            name: "测试的才多拿点2"
-          }
-        ],
-        [
-          {
-            name: "测试的才多拿点3"
-          }
-        ], [
-          {
-            name: "测试的才多拿点3"
-          }
-        ],
-      ]
     }
   },
-  mounted: function () {
-    var ele = document.querySelectorAll(".row3-1-1");
-    var len = ele.length;
-    for (var i = 0; i < len; i++) {
-      let element = ele[i].querySelector(".row3-1-1-hover")
-      let alert = ele[i].querySelector(".popup")
-      element.onmousemove = function (e) {
-        alert.style.left = e.clientX + 10 + "px"
-        // alert.style.top = e.clientY - alert.clientHeight + "px"
-        alert.style.top = e.clientY + "px"
-
-        alert.style.display = "block";
-      };//鼠标移入
-      element.onmouseout = function () {
-        alert.style.display = "none";
-      };//鼠标移出
-    }
-
+  mounted() {
   },
   methods: {
     closePackage() {
@@ -115,6 +90,7 @@ export default {
     },
     typeChoose(e) {
       this.type = e
+      this.$emit('type', e);
     }
   }
 }
@@ -162,6 +138,7 @@ export default {
 
 .row1-1-1 {
   margin-left: 3px;
+  cursor: pointer
 }
 
 .row2 {

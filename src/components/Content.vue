@@ -13,7 +13,7 @@
           <div class="map-info">地图描述</div>
           <div class="content-info" id="content-info">
             <Property v-bind:role="role" v-on:close-shu-xin="shuXinView=$event" v-show="shuXinView"/>
-            <Package v-on:close-package="packageView=$event" v-show="packageView"/>
+            <Package @type="typeChoose" v-bind:itemList="itemList" v-on:close-package="packageView=$event" v-show="packageView"/>
             <p v-for="item in contentList" v-html="item"></p>
           </div>
         </div>
@@ -97,6 +97,8 @@ export default {
       contentList: [],
       shuXinView: false,
       packageView: false,
+      itemList:[],
+      packageType:1,
     }
   },
   mounted() {
@@ -117,15 +119,28 @@ export default {
       if (newValue <= 0) {
         this.times = 11
       }
+    },
+    packageType(oValue,nValue){
+      console.log(oValue,nValue)
+      if (this.packageView) {
+        let req = {
+          "type": this.packageType.toString(),
+          "command": "package"
+        }
+        send(JSON.stringify(req))
+      }
     }
   },
   methods: {
+    typeChoose(e){
+      this.packageType = e
+    },
     openPackage() {
       this.shuXinView = false;
       this.packageView = !this.packageView
       if (this.packageView) {
         let req = {
-          "type": "1",
+          "type": this.packageType.toString(),
           "command": "package"
         }
         send(JSON.stringify(req))
