@@ -62,9 +62,7 @@ export default {
           let alert = ele[i].querySelector(".popup")
           element.onmousemove = function (e) {
             alert.style.left = e.clientX + 10 + "px"
-            // alert.style.top = e.clientY - alert.clientHeight + "px"
             alert.style.top = e.clientY + "px"
-
             alert.style.display = "block";
           };//鼠标移入
           element.onmouseout = function () {
