@@ -7,23 +7,56 @@
     <div class="box">
       <div class="row1 dashedLine">
         <div class="row1-1">
-          <div class="row1-1-1">【称号】：测试的才多拿点</div>
-          <div class="row1-1-1">【武器】：测试的才多拿点</div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover">【称号】：{{ equipment.cheng_hao.name }}
+              <div class="popup1">{{ equipment.cheng_hao.property }}</div></span>
+          </div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover">【武器】：{{ equipment.wu_qi.name }}
+              <div class="popup1">{{ equipment.wu_qi.info }}</div></span>
+          </div>
         </div>
         <div class="row1-1">
-          <div class="row1-1-1">【头部】：测试的才多拿点</div>
-          <div class="row1-1-1">【衣服】：测试的才多拿点</div>
-          <div class="row1-1-1">【披风】：测试的才多拿点</div>
+          <div class="row1-1-1">
+                   <span class="row1-1-1-hover">【头部】：{{ equipment.tou_bu.name }}
+              <div class="popup1">{{ equipment.tou_bu.info }}</div></span>
+          </div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover">【衣服】：{{ equipment.yi_fu.name }}
+              <div class="popup1">{{ equipment.yi_fu.info }}</div></span>
+          </div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover"> 【披风】：{{ equipment.pi_feng.name }}
+              <div class="popup1">{{ equipment.pi_feng.info }}</div></span>
+          </div>
         </div>
         <div class="row1-1">
-          <div class="row1-1-1">【护腕】：测试的才多拿点</div>
-          <div class="row1-1-1">【腰带】：测试的才多拿点</div>
-          <div class="row1-1-1">【鞋】：测试的才多拿点</div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover"> 【护腕】：{{ equipment.hu_wang.name }}
+              <div class="popup1">{{ equipment.hu_wang.info }}</div></span>
+          </div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover"> 【腰带】：{{ equipment.yao_dai.name }}
+              <div class="popup1">{{ equipment.yao_dai.info }}</div></span>
+          </div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover"> 【鞋】：{{ equipment.xie_zi.name }}
+              <div class="popup1">{{ equipment.xie_zi.info }}</div></span>
+          </div>
         </div>
         <div class="row1-1">
-          <div class="row1-1-1">【戒指】：测试的才多拿点</div>
-          <div class="row1-1-1">【项链】：测试的才多拿点</div>
-          <div class="row1-1-1">【饰品】：测试的才多拿点</div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover">  【戒指】：{{ equipment.jie_zhi.name }}
+            <div class="popup1">{{ equipment.jie_zhi.info }}</div></span>
+          </div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover"> 【项链】：{{ equipment.xiang_liang.name }}
+            <div class="popup1">{{ equipment.xiang_liang.info }}</div></span>
+          </div>
+          <div class="row1-1-1">
+            <span class="row1-1-1-hover">   【饰品】：{{ equipment.shi_ping.name }}
+            <div class="popup1">{{ equipment.shi_ping.info }}</div></span>
+          </div>
         </div>
       </div>
       <div class="row2">
@@ -49,25 +82,43 @@ export default {
   name: "Package",
   props: {
     itemList: Array,
-    equipmentList: Array
+    equipment: Object
   },
   watch: {
     itemList(newV, oldV) {
       this.$nextTick(() => {
-        var ele = document.querySelectorAll(".row3-1-1");
-        console.log(ele)
-        var len = ele.length;
-        for (var i = 0; i < len; i++) {
-          let element = ele[i].querySelector(".row3-1-1-hover")
-          let alert = ele[i].querySelector(".popup")
-          element.onmousemove = function (e) {
-            alert.style.left = e.clientX + 10 + "px"
-            alert.style.top = e.clientY + "px"
-            alert.style.display = "block";
-          };//鼠标移入
-          element.onmouseout = function () {
-            alert.style.display = "none";
-          };//鼠标移出
+        {
+          const ele = document.querySelectorAll(".row3-1-1");
+          var len = ele.length;
+          for (let i = 0; i < len; i++) {
+            let element = ele[i].querySelector(".row3-1-1-hover")
+            let alert = ele[i].querySelector(".popup")
+            element.onmousemove = function (e) {
+              alert.style.left = e.clientX + 10 + "px"
+              alert.style.top = e.clientY + "px"
+              alert.style.display = "block";
+            };//鼠标移入
+            element.onmouseout = function () {
+              alert.style.display = "none";
+            };//鼠标移出
+          }
+        }
+        {
+          const ele = document.querySelectorAll(".row1-1-1");
+          console.log(ele)
+          var len = ele.length;
+          for (let i = 0; i < len; i++) {
+            let element = ele[i].querySelector(".row1-1-1-hover")
+            let alert = ele[i].querySelector(".popup1")
+            element.onmousemove = function (e) {
+              alert.style.left = e.clientX + 10 + "px"
+              alert.style.top = e.clientY + "px"
+              alert.style.display = "block";
+            };//鼠标移入
+            element.onmouseout = function () {
+              alert.style.display = "none";
+            };//鼠标移出
+          }
         }
       })
     }
@@ -130,8 +181,7 @@ export default {
 .row1-1 {
   display: flex;
   flex-flow: column;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-evenly;
 }
 
 .row1-1-1 {
@@ -188,7 +238,8 @@ export default {
   border-bottom: 1px dashed #333333;
 }
 
-.popup {
+.popup,
+.popup1 {
   display: none;
   position: absolute;
   width: 200px;

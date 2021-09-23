@@ -12,8 +12,12 @@
         <div class="content-left">
           <div class="map-info">地图描述</div>
           <div class="content-info" id="content-info">
-            <Property v-bind:role="role" v-on:close-shu-xin="shuXinView=$event" v-show="shuXinView"/>
-            <Package @type="typeChoose" v-bind:itemList="itemList" v-on:close-package="packageView=$event" v-show="packageView"/>
+            <Property v-bind:role="role" v-on:close-shu-xin="shuXinView=$event" v-if="shuXinView"/>
+            <Package @type="typeChoose"
+                     v-bind:itemList="itemList"
+                     v-bind:equipment="equipment"
+                     v-on:close-package="packageView=$event"
+                     v-if="packageView"/>
             <p v-for="item in contentList" v-html="item"></p>
           </div>
         </div>
@@ -97,8 +101,65 @@ export default {
       contentList: [],
       shuXinView: false,
       packageView: false,
-      itemList:[],
-      packageType:1,
+      itemList: [],
+      packageType: 1,
+      equipment: {
+        cheng_hao: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        wu_qi: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        tou_bu: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        yi_fu: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        pi_feng: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        hu_wang: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        yao_dai: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        xie_zi: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        jie_zhi: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        xiang_liang: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+        shi_ping: {
+          name: "暂无装备...",
+          property: "",
+          info: ""
+        },
+      },
     }
   },
   mounted() {
@@ -120,8 +181,8 @@ export default {
         this.times = 11
       }
     },
-    packageType(oValue,nValue){
-      console.log(oValue,nValue)
+    packageType(oValue, nValue) {
+      console.log(oValue, nValue)
       if (this.packageView) {
         let req = {
           "type": this.packageType.toString(),
@@ -132,7 +193,7 @@ export default {
     }
   },
   methods: {
-    typeChoose(e){
+    typeChoose(e) {
       this.packageType = e
     },
     openPackage() {
