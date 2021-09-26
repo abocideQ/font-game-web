@@ -62,11 +62,12 @@ export function look(obj) {
 }
 
 export function _package(obj) {
-    console.log("package", obj.equipmentList)
+    console.log("package equipmentList", obj.equipmentList)
+    console.log("package itemList", obj.itemList)
+
     vm.itemList = obj.itemList
     // 0 称号 1 武器 2 头部 3 衣服 4披风 5 护腕 6 腰带 7 鞋子 8 戒指 9项链 10 饰品
     obj.equipmentList.forEach(e => {
-        console.log("e",e)
         switch (e.type) {
             case 0:
                 vm.equipment.cheng_hao = e;
@@ -105,5 +106,4 @@ export function _package(obj) {
     })
 
 }
-
 export default sendThis

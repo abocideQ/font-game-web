@@ -107,57 +107,68 @@ export default {
         cheng_hao: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         wu_qi: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         tou_bu: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         yi_fu: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         pi_feng: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         hu_wang: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         yao_dai: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         xie_zi: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         jie_zhi: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         xiang_liang: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
         shi_ping: {
           name: "暂无装备...",
           property: "",
-          info: ""
+          info: "",
+          level: 0
         },
       },
     }

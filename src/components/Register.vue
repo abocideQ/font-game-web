@@ -37,18 +37,18 @@
 		methods: {
 			register() {
 				console.log("email", this.email, "password", this.password)
-				this.bus.$emit('loading', true);
+				this.bus.$emit('loading', "创建中");
 				createApi({
 					"email": this.email,
 					"password": this.password
 				}).then((res) => {
-					if (res.data.code == 200) {
+					if (res.data.code === 200) {
 						this.showMsg = "创建成功"
 						this.$emit('show-view', 1)
-					} else {
+            this.bus.$emit('loading', "创建成功");
+          } else {
 						this.showMsg = res.data.msg
 					}
-					this.bus.$emit('loading', false);
 				})
 			},
 			toLogin() {

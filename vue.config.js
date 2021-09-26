@@ -1,6 +1,6 @@
 module.exports = {
 	// 基本路径 baseURL已经过时
-	publicPath: './',
+	publicPath: '/view',
 	// 输出文件目录
 	outputDir: 'dist',
 	// eslint-loader 是否在保存的时候检查

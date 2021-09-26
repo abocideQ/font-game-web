@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Login from './components/Login.vue'
+import  Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import Content from './components/Content.vue'
 import Role from './components/Role.vue'
@@ -123,8 +123,27 @@ body {
 red {
   color: red;
 }
+.red{
+  color: red;
+}
 
 cadetblue {
   color: cadetblue;
+}
+
+.one{
+  color: white;
+}
+.two{
+  color: #0fb80f;
+}
+.three{
+  color: #0ad9d9;
+}
+.four{
+  color: #6009ec;
+}
+.five{
+  color: #d40404;
 }
 </style>
