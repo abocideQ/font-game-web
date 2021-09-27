@@ -19,7 +19,7 @@ export function connect() {
             "r": localStorage.getItem("r"),
             "t": localStorage.getItem("t")
         }
-        send(JSON.stringify(loginData));
+        vm.globalWs.send(JSON.stringify(loginData))
     } else {
         localStorage.removeItem("t")
         localStorage.removeItem("r")
@@ -47,9 +47,4 @@ export function listenMsg(msg) {
         vm.bus.$emit("loading", obj.msg)
     }
 }
-
-export function send(params) {
-    vm.socket.send(params)
-}
-
 export default sendThis

@@ -8,19 +8,21 @@
       <div class="row1 dashedLine">
         <div class="row1-1">
           <div class="row1-1-1">
-            <span class="row1-1-1-hover">【称号】：{{ equipment.cheng_hao.name }}
+            【称号】：<span class="row1-1-1-hover">{{ equipment.cheng_hao.name }}
               <div class="popup1">
                 <p :class="colorMap.boolean[equipment.cheng_hao.level]">{{ equipment.cheng_hao.name }}</p>
+                <p> {{ levelMap.boolean[equipment.cheng_hao.level] }}</p>
                 <p> {{ equipment.cheng_hao.info }}</p>
                 <p> {{ equipment.cheng_hao.property }}</p>
                 <p v-html="equipment.cheng_hao.property"> </p>
               </div></span>
           </div>
           <div class="row1-1-1">
-            <span class="row1-1-1-hover">【武器】：<span
-                :class="colorMap.boolean[equipment.wu_qi.level]">{{ equipment.wu_qi.name }}</span>
+            【武器】：<span class="row1-1-1-hover"><span
+              :class="colorMap.boolean[equipment.wu_qi.level]">{{ equipment.wu_qi.name }}</span>
               <div class="popup1">
                 <p :class="colorMap.boolean[equipment.wu_qi.level]">{{ equipment.wu_qi.name }}</p>
+                <p> {{ levelMap.boolean[equipment.wu_qi.level] }}</p>
                 <p> {{ equipment.wu_qi.info }}</p>
                 <p v-html="equipment.wu_qi.property"> </p>
               </div></span>
@@ -28,29 +30,34 @@
         </div>
         <div class="row1-1">
           <div class="row1-1-1">
-                   <span class="row1-1-1-hover">【头部】：<span
-                       :class="colorMap.boolean[equipment.tou_bu.level]">{{ equipment.tou_bu.name }}</span>
+            【头部】：<span class="row1-1-1-hover"><span
+              :class="colorMap.boolean[equipment.tou_bu.level]">{{ equipment.tou_bu.name }}</span>
               <div class="popup1">
                 <p :class="colorMap.boolean[equipment.tou_bu.level]">{{ equipment.tou_bu.name }}</p>
+                                <p> {{ levelMap.boolean[equipment.tou_bu.level] }}</p>
+
                 <p> {{ equipment.tou_bu.info }}</p>
                 <p> {{ equipment.tou_bu.property }}</p>
                 <p v-html="equipment.tou_bu.property"> </p>
               </div></span>
           </div>
           <div class="row1-1-1">
-            <span class="row1-1-1-hover">【衣服】：<span
-                :class="colorMap.boolean[equipment.yi_fu.level]">{{ equipment.yi_fu.name }}</span>
+            【衣服】：<span class="row1-1-1-hover"><span
+              :class="colorMap.boolean[equipment.yi_fu.level]">{{ equipment.yi_fu.name }}</span>
               <div class="popup1">
                 <p :class="colorMap.boolean[equipment.yi_fu.level]">{{ equipment.yi_fu.name }}</p>
+                                                <p> {{ levelMap.boolean[equipment.yi_fu.level] }}</p>
+
                 <p> {{ equipment.yi_fu.info }}</p>
                 <p v-html="equipment.yi_fu.property"> </p>
               </div></span>
           </div>
           <div class="row1-1-1">
-            <span class="row1-1-1-hover"> 【披风】：<span
-                :class="colorMap.boolean[equipment.pi_feng.level]">{{ equipment.pi_feng.name }}</span>
+            【披风】：<span class="row1-1-1-hover"> <span
+              :class="colorMap.boolean[equipment.pi_feng.level]">{{ equipment.pi_feng.name }}</span>
               <div class="popup1">
                 <p :class="colorMap.boolean[equipment.pi_feng.level]">{{ equipment.pi_feng.name }}</p>
+            <p> {{ levelMap.boolean[equipment.pi_feng.level] }}</p>
                 <p> {{ equipment.pi_feng.info }}</p>
                 <p v-html="equipment.pi_feng.property"> </p>
               </div></span>
@@ -58,28 +65,31 @@
         </div>
         <div class="row1-1">
           <div class="row1-1-1">
-            <span class="row1-1-1-hover"> 【护腕】：<span
-                :class="colorMap.boolean[equipment.hu_wang.level]">{{ equipment.hu_wang.name }}</span>
+            【护腕】：<span class="row1-1-1-hover"> <span
+              :class="colorMap.boolean[equipment.hu_wang.level]">{{ equipment.hu_wang.name }}</span>
               <div class="popup1">
                 <p :class="colorMap.boolean[equipment.hu_wang.level]">{{ equipment.hu_wang.name }}</p>
+                <p> {{ levelMap.boolean[equipment.hu_wang.level] }}</p>
                 <p> {{ equipment.hu_wang.info }}</p>
                 <p v-html="equipment.hu_wang.property"> </p>
               </div></span>
           </div>
           <div class="row1-1-1">
-            <span class="row1-1-1-hover"> 【腰带】：<span
-                :class="colorMap.boolean[equipment.yao_dai.level]">{{ equipment.yao_dai.name }}</span>
+            【腰带】：<span class="row1-1-1-hover"> <span
+              :class="colorMap.boolean[equipment.yao_dai.level]">{{ equipment.yao_dai.name }}</span>
               <div class="popup1">
                  <p :class="colorMap.boolean[equipment.yao_dai.level]">{{ equipment.yao_dai.name }}</p>
+                    <p> {{ levelMap.boolean[equipment.yao_dai.level] }}</p>
                 <p> {{ equipment.yao_dai.info }}</p>
                 <p v-html="equipment.yao_dai.property"> </p>
               </div></span>
           </div>
           <div class="row1-1-1">
-            <span class="row1-1-1-hover"> 【鞋】：<span
-                :class="colorMap.boolean[equipment.xie_zi.level]">{{ equipment.xie_zi.name }}</span>
+            【鞋】：<span class="row1-1-1-hover"><span
+              :class="colorMap.boolean[equipment.xie_zi.level]">{{ equipment.xie_zi.name }}</span>
               <div class="popup1">
                 <p :class="colorMap.boolean[equipment.xie_zi.level]">{{ equipment.xie_zi.name }}</p>
+                  <p> {{ levelMap.boolean[equipment.xie_zi.level] }}</p>
                 <p> {{ equipment.xie_zi.info }}</p>
                 <p v-html="equipment.xie_zi.property"> </p>
               </div></span>
@@ -87,30 +97,36 @@
         </div>
         <div class="row1-1">
           <div class="row1-1-1">
-            <span class="row1-1-1-hover">  【戒指】：<span
-                :class="colorMap.boolean[equipment.jie_zhi.level]">{{ equipment.jie_zhi.name }}</span>
+            【戒指】：<span class="row1-1-1-hover"><span
+              :class="colorMap.boolean[equipment.jie_zhi.level]">{{ equipment.jie_zhi.name }}</span>
             <div class="popup1">
                 <p :class="colorMap.boolean[equipment.jie_zhi.level]">{{ equipment.jie_zhi.name }}</p>
+                  <p> {{ levelMap.boolean[equipment.jie_zhi.level] }}</p>
+
                 <p> {{ equipment.jie_zhi.info }}</p>
                 <p> {{ equipment.jie_zhi.property }}</p>
 
             </div></span>
           </div>
           <div class="row1-1-1">
-            <span class="row1-1-1-hover"> 【项链】：<span
-                :class="colorMap.boolean[equipment.xiang_liang.level]">{{ equipment.xiang_liang.name }}</span>
+            【项链】：<span class="row1-1-1-hover"> <span
+              :class="colorMap.boolean[equipment.xiang_liang.level]">{{ equipment.xiang_liang.name }}</span>
             <div class="popup1">
                 <p :class="colorMap.boolean[equipment.xiang_liang.level]">{{ equipment.xiang_liang.name }}</p>
+                                <p> {{ levelMap.boolean[equipment.xiang_liang.level] }}</p>
+
                 <p> {{ equipment.xiang_liang.info }}</p>
                 <p> {{ equipment.xiang_liang.property }}</p>
 
             </div></span>
           </div>
           <div class="row1-1-1">
-            <span class="row1-1-1-hover">   【饰品】：<span
-                :class="colorMap.boolean[equipment.shi_ping.level]"> {{ equipment.shi_ping.name }} </span>
+            【饰品】：<span class="row1-1-1-hover"><span
+              :class="colorMap.boolean[equipment.shi_ping.level]"> {{ equipment.shi_ping.name }} </span>
             <div class="popup1">
                 <p :class="colorMap.boolean[equipment.shi_ping.level]"> {{ equipment.shi_ping.name }}</p>
+                                              <p> {{ levelMap.boolean[equipment.shi_ping.level] }}</p>
+
                 <p> {{ equipment.shi_ping.info }}</p>
                 <p> {{ equipment.shi_ping.property }}</p>
             </div></span>
@@ -128,7 +144,7 @@
           <div class="row3-1-1" v-for="(item,index) in list">
             <span :class="colorMap.boolean[item.level]" class="row3-1-1-hover" @click.stop="pop($event)">{{ item.name }}
               <div class="popup">
-                  <p :class="colorMap.boolean[item.level]" >{{ item.name }}</p>
+                  <p :class="colorMap.boolean[item.level]">{{ item.name }}</p>
                   <p> {{ levelMap.boolean[item.level] }}</p>
                   <p>{{ item.info }}</p>
                   <p v-html="item.property"></p>
@@ -147,7 +163,6 @@
 </template>
 
 <script>
-
 export default {
   name: "Package",
   props: {
@@ -162,6 +177,7 @@ export default {
           var len = ele.length;
           for (let i = 0; i < len; i++) {
             let element = ele[i].querySelector(".row3-1-1-hover")
+            console.log("element",element)
             let alert = ele[i].querySelector(".popup")
             element.onmousemove = function (e) {
               alert.style.left = e.clientX + 10 + "px"
@@ -206,11 +222,11 @@ export default {
       y: 0,
       levelMap: {
         boolean: {
-          1: '一般',
-          2: '良好',
-          3: '上乘',
-          4: '完美',
-          5: '神品',
+          1: '品质 一般',
+          2: '品质 良好',
+          3: '品质 上乘',
+          4: '品质 完美',
+          5: '品质 神品',
         }
       },
       colorMap: {
@@ -232,31 +248,31 @@ export default {
     })
   },
   methods: {
-    wear(){
-      console.log("123")
+    wear() {
       let data = {
-        "command": "zhuang_bei",
-        "itemId": 123,
+        "command": "wear",
+        "itemId": "123",
       }
-      this.$parent.send(JSON.stringify(data))
+      this.globalWs.send(JSON.stringify(data))
     },
-    丢弃(){
+    丢弃() {
       console.log("丢弃")
     },
     pop(e) {
-      this.mouse.left = e.pageX+5;
-      this.mouse.top = e.pageY+5;
+      this.mouse.left = e.pageX + 5;
+      this.mouse.top = e.pageY + 5;
       this.isPop = true;
-      // document.addEventListener("click", () => {
-      //   this.isPop = false;
-      // });
     },
     closePackage() {
       this.$emit('close-package', false)
     },
     typeChoose(e) {
       this.type = e
-      this.$emit('type', e);
+      let req = {
+        "type": e.toString(),
+        "command": "package"
+      }
+      this.globalWs.send(JSON.stringify(req))
     }
   }
 }
@@ -273,15 +289,18 @@ export default {
   border-radius: 5px;
   z-index: 999;
 }
+
 .pop > div {
   margin: 15px 10px;
   cursor: pointer;
   border-bottom: 1px dashed #333333;
 }
-.pop > div:hover{
+
+.pop > div:hover {
   border-radius: 5px;
   background-color: #eeeeee;
 }
+
 .openPackage {
   height: 60%;
   width: 100%;

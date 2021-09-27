@@ -12,11 +12,10 @@
         <div class="content-left">
           <div class="map-info">地图描述</div>
           <div class="content-info" id="content-info">
-<!--            属性-->
+            <!--            属性-->
             <Property v-bind:role="role" v-on:close-shu-xin="shuXinView=$event" v-if="shuXinView"/>
-<!--            背包-->
-            <Package @type="typeChoose"
-                     v-bind:itemList="itemList"
+            <!--            背包-->
+            <Package v-bind:itemList="itemList"
                      v-bind:equipment="equipment"
                      v-on:close-package="packageView=$event"
                      v-if="packageView"/>
@@ -64,7 +63,7 @@
 <script>
 
 
-import WS, {listenMsg, connect, send} from '../ws/WebSocket'
+import GLOBAL from "../ws/Global"
 import Property from "@/components/Property";
 import Package from "@/components/Package";
 
@@ -176,7 +175,7 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    GLOBAL.init(this)
   },
   watch: {
     contentList(oldValue, newValue) {
@@ -194,21 +193,8 @@ export default {
         this.times = 11
       }
     },
-    packageType(oValue, nValue) {
-      console.log(oValue, nValue)
-      if (this.packageView) {
-        let req = {
-          "type": this.packageType.toString(),
-          "command": "package"
-        }
-        send(JSON.stringify(req))
-      }
-    }
   },
   methods: {
-    typeChoose(e) {
-      this.packageType = e
-    },
     openPackage() {
       this.shuXinView = false;
       this.packageView = !this.packageView
@@ -217,7 +203,7 @@ export default {
           "type": this.packageType.toString(),
           "command": "package"
         }
-        send(JSON.stringify(req))
+        this.globalWs.send(JSON.stringify(req))
       }
     },
     openShuXin() {
@@ -227,7 +213,7 @@ export default {
         let req = {
           "command": "look"
         }
-        send(JSON.stringify(req))
+        this.globalWs.send(JSON.stringify(req))
       }
     },
     timesCount() {
@@ -248,45 +234,11 @@ export default {
           "msg": msg,
           "nickname": this.role.nickname
         }
-        this.send(JSON.stringify(data))
+        this.globalWs.send(JSON.stringify(data))
         this.msg = ''
       }
     },
-    init: function () {
-      if (typeof (WebSocket) === "undefined") {
-        alert("您的浏览器不支持socket")
-      } else {
-        // 实例化socket
-        this.socket = new WebSocket(this.path + localStorage.getItem("r"))
-        // 监听socket连接
-        this.socket.onopen = this.open
-        // 监听socket错误信息
-        this.socket.onerror = this.error
-        // 监听socket消息
-        this.socket.onmessage = this.getMessage
-        WS(this)
-      }
-    },
-    open: function () {
-      connect()
-    },
-    error: function (event) {
-      console.log('WebSocket error: ', event);
-    },
-    getMessage: function (msg) {
-      listenMsg(msg)
-    },
-    send: function (params) {
-      send(params)
-    },
-    close: function () {
-      this.contentList.push("服务器连接已关闭，请尝试重新登录")
-    },
   },
-  destroyed() {
-    // 销毁监听
-    this.socket.onclose = this.close
-  }
 }
 </script>
 
