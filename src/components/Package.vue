@@ -126,21 +126,28 @@
       <div class="row3">
         <div class="row3-1" v-for="list in itemList">
           <div class="row3-1-1" v-for="(item,index) in list">
-            <span :class="colorMap.boolean[item.level]" class="row3-1-1-hover">{{ item.name }}
+            <span :class="colorMap.boolean[item.level]" class="row3-1-1-hover" @click.stop="pop($event)">{{ item.name }}
               <div class="popup">
-                  <p :class="colorMap.boolean[item.level]">{{ item.name }}</p>
+                  <p :class="colorMap.boolean[item.level]" >{{ item.name }}</p>
                   <p> {{ levelMap.boolean[item.level] }}</p>
                   <p>{{ item.info }}</p>
+                  <p v-html="item.property"></p>
                   <p>出售价格 {{ item.sellPrice }}银两</p>
               </div></span>
           </div>
         </div>
       </div>
     </div>
+
+    <div v-if="isPop" class="pop" :style="{'left':mouse.left+'px','top':mouse.top+'px'}">
+      <div @click="wear">装备</div>
+      <div @click="丢弃">丢弃</div>
+    </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "Package",
   props: {
@@ -188,6 +195,11 @@ export default {
   },
   data() {
     return {
+      isPop: false, //弹出选择菜单
+      mouse: {
+        left: 0,
+        top: 0
+      },
       type: 1,
       where: {x: 0, y: 0},
       x: 0,
@@ -213,8 +225,32 @@ export default {
     }
   },
   mounted() {
+    document.addEventListener('click', () => {
+      if (this.isPop === true) {
+        this.isPop = false
+      }
+    })
   },
   methods: {
+    wear(){
+      console.log("123")
+      let data = {
+        "command": "zhuang_bei",
+        "itemId": 123,
+      }
+      this.$parent.send(JSON.stringify(data))
+    },
+    丢弃(){
+      console.log("丢弃")
+    },
+    pop(e) {
+      this.mouse.left = e.pageX+5;
+      this.mouse.top = e.pageY+5;
+      this.isPop = true;
+      // document.addEventListener("click", () => {
+      //   this.isPop = false;
+      // });
+    },
     closePackage() {
       this.$emit('close-package', false)
     },
@@ -229,7 +265,23 @@ export default {
 </script>
 
 <style scoped>
-
+.pop {
+  position: absolute;
+  background: #eac087;
+  box-shadow: 1px 1px 4px #888;
+  font-size: 12px;
+  border-radius: 5px;
+  z-index: 999;
+}
+.pop > div {
+  margin: 15px 10px;
+  cursor: pointer;
+  border-bottom: 1px dashed #333333;
+}
+.pop > div:hover{
+  border-radius: 5px;
+  background-color: #eeeeee;
+}
 .openPackage {
   height: 60%;
   width: 100%;

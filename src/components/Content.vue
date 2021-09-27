@@ -12,7 +12,9 @@
         <div class="content-left">
           <div class="map-info">地图描述</div>
           <div class="content-info" id="content-info">
+<!--            属性-->
             <Property v-bind:role="role" v-on:close-shu-xin="shuXinView=$event" v-if="shuXinView"/>
+<!--            背包-->
             <Package @type="typeChoose"
                      v-bind:itemList="itemList"
                      v-bind:equipment="equipment"

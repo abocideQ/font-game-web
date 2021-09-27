@@ -14,7 +14,7 @@ function resetScroll() {
 const sendThis = (_this) => {
     vm = _this;
 };
-
+// 添加信息
 export function add_msg(obj) {
     vm.msgList.push({
         nickname: obj.nickname,
@@ -22,16 +22,16 @@ export function add_msg(obj) {
     })
     resetScroll();
 }
-
+// 第三方登录
 export function other_login(obj) {
     vm.contentList.push(obj.msg)
 }
-
+// 添加游戏日志
 export function add_content_info(obj) {
     vm.contentList.push(obj.msg)
     resetScroll();
 }
-
+// 登录
 export function login(obj) {
     console.log("loing", obj)
     vm.roleBase = {
@@ -47,7 +47,7 @@ export function login(obj) {
     vm.contentList.push(obj.msg)
 }
 
-
+// 查看
 export function look(obj) {
     vm.role = {
         sex: obj.roleInfo.sex,
@@ -60,12 +60,13 @@ export function look(obj) {
         mp: obj.roleInfo.mp,
     }
 }
-
+// 背包
 export function _package(obj) {
     console.log("package equipmentList", obj.equipmentList)
     console.log("package itemList", obj.itemList)
 
     vm.itemList = obj.itemList
+    console.log("itemList==>",vm.itemList)
     // 0 称号 1 武器 2 头部 3 衣服 4披风 5 护腕 6 腰带 7 鞋子 8 戒指 9项链 10 饰品
     obj.equipmentList.forEach(e => {
         switch (e.type) {
@@ -106,4 +107,5 @@ export function _package(obj) {
     })
 
 }
+
 export default sendThis

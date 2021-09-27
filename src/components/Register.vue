@@ -28,8 +28,8 @@
 		name: 'Register',
 		data() {
 			return {
-				email: "213",
-				password: "123",
+				email: "",
+				password: "",
 				showMsg: ""
 			}
 
